@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "262366814130",
+    "firebase_url": "https://gimfit-654d0.firebaseio.com",
+    "project_id": "gimfit-654d0",
+    "storage_bucket": "gimfit-654d0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:262366814130:android:87b12cdc307d2cd6",
+        "android_client_info": {
+          "package_name": "segev.gimfit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "262366814130-lr13jb4a79psoo2daogmdb3jpdacmje2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "segev.gimfit",
+            "certificate_hash": "c350c050a2cdaf4c74cac74f9ec0112856c59c20"
+          }
+        },
+        {
+          "client_id": "262366814130-6j4e8lk5nkt715sni9d838eoi3rf06c6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMRTjGQAkboX3J1b8KCBG7BYvXTHj2aZQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "262366814130-6j4e8lk5nkt715sni9d838eoi3rf06c6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/ic_arrow"
+        android:icon="@drawable/ic_arrow_back"
+        android:title="Back"
+        />
+
+    <item
+        android:id="@+id/navigation_running"
+        android:icon="@drawable/running"
+        android:enabled="true"
+        android:title="Running"
+        />
+
+    <item
+        android:id="@+id/navigation_biking"
+        android:icon="@drawable/biking"
+        android:enabled="true"
+        android:title="Biking" />
+
+    <item
+        android:id="@+id/navigation_gym"
+        android:icon="@drawable/gym"
+        android:enabled="true"
+        android:title="Gym" />
+
+</menu>

@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Gymfit</string>
+    <string name="selected_coach">Selected coach:</string>
+    <string name="your_goal">Your goal:</string>
+    <string-array name="coaches">
+        <item>Selected coach</item>
+        <item>segev</item>
+        <item>gilad</item>
+        <item>meir</item>
+    </string-array>
+    <string-array name="goals">
+        <item>Your goals</item>
+        <item>Get fitter</item>
+        <item>Body mass</item>
+        <item>Lose fat</item>
+
+    </string-array>
+    <string name="action_settings">Settings</string>
+    <string name="from_date">From Date</string>
+    <string name="to_date">To Date</string>
+    <string name="title_activity_trainer_page_area">TrainerPageArea</string>
+    <string name="title_activity_coach_page_area">CoachPageArea</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_coach_zone">Coach_zone</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_3">Tab 3</string>
+    <string name="title_activity_create_work_out">Create_work_out</string>
+
+</resources>
