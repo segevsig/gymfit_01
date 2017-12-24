@@ -70,6 +70,7 @@ android:supportsRtl="false"
         <activity android:name=".Gym_activity"></activity>
         <activity android:name=".Running_activity"></activity>
         <activity android:name=".Biking_activity"></activity>
+        <activity android:name=".google_calendar"></activity>
     </application>
 
 </manifest>

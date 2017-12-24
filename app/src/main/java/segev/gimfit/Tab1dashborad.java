@@ -24,10 +24,7 @@ import com.google.api.services.calendar.CalendarScopes;
  */
 
 public class Tab1dashborad extends android.support.v4.app.Fragment {
-    static final int REQUEST_ACCOUNT_PICKER = 1000;
-    static final int REQUEST_AUTHORIZATION = 1001;
-    static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
-    static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,7 +50,7 @@ public class Tab1dashborad extends android.support.v4.app.Fragment {
         });
         CalendarView simpleCalendarView = rootView.findViewById(R.id.calendarViewCoach);
 
-
+google_calendar goo=new google_calendar();
         return rootView;
     }
 
