@@ -1,13 +1,13 @@
 
 package segev.gimfit;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -16,8 +16,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import com.google.api.services.calendar.CalendarScopes;
+import java.awt.font.TextAttribute;
+import java.util.Calendar;
+import java.util.Date;
 
+import devs.mulham.horizontalcalendar.HorizontalCalendar;
+import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
 
 /**
  * Created by LENOVO on 21/12/2017.
@@ -25,16 +29,37 @@ import com.google.api.services.calendar.CalendarScopes;
 
 public class Tab1dashborad extends android.support.v4.app.Fragment {
 
+    TextView textView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Calendar endDate = Calendar.getInstance();
+        endDate.add(Calendar.MONTH, 1);
+        Calendar startDate = Calendar.getInstance();
+        startDate.add(Calendar.MONTH, -1);
         final View rootView = inflater.inflate(R.layout.tab1dashborad, container, false);
-        final TextView namecohach=(TextView) rootView.findViewById(R.id.hellow_name_coach);
+        //final TextView namecohach=(TextView) rootView.findViewById(R.id.hellow_name_coach);
 
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Coach")
+        HorizontalCalendar horizontalCalendar = new HorizontalCalendar.Builder(rootView, R.id.calendarView).startDate(startDate.getTime())
+                .endDate(endDate.getTime())
+                .datesNumberOnScreen(5)
+                .build();
+
+        horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
+            @Override
+            public void onDateSelected(Date date, int position) {
+            }
+        });
+        return rootView;
+    }
+}
+
+/*
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Coach")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         ref.addValueEventListener(new ValueEventListener() {
-            @Override
+           @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot dataSnapshot1 :dataSnapshot.getChildren()) {
                     if (dataSnapshot1.getKey().toString().equals("fullName")) {
@@ -52,6 +77,10 @@ public class Tab1dashborad extends android.support.v4.app.Fragment {
 
 google_calendar goo=new google_calendar();
         return rootView;
-    }
 
-}
+   }*/
+
+
+
+
+

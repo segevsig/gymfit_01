@@ -6,33 +6,14 @@
     android:layout_height="match_parent"
     tools:context="segev.gimfit.Coach_zone$PlaceholderFragment">
 
-
-    <TextView
-        android:id="@+id/hellow_name_coach"
-        android:layout_width="293dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:text=""
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.177"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <CalendarView
-        android:id="@+id/calendarViewCoach"
-        android:layout_width="wrap_content"
+    <devs.mulham.horizontalcalendar.HorizontalCalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.529"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hellow_name_coach"
-        app:layout_constraintVertical_bias="0.275"
-        />
+        android:background="#4286f4"
+        app:textColorSelected="#ffffff"/>
+
+
+
+
 </android.support.constraint.ConstraintLayout>
