@@ -1,4 +1,3 @@
-
 package segev.gimfit;
 
 import android.os.Bundle;
@@ -9,6 +8,14 @@ import android.widget.CalendarView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApi;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.services.calendar.model.Events;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,6 +37,7 @@ import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
 public class Tab1dashborad extends android.support.v4.app.Fragment {
 
     TextView textView;
+    private com.google.api.services.calendar.Calendar mService = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,7 +49,7 @@ public class Tab1dashborad extends android.support.v4.app.Fragment {
         final View rootView = inflater.inflate(R.layout.tab1dashborad, container, false);
         //final TextView namecohach=(TextView) rootView.findViewById(R.id.hellow_name_coach);
 
-        HorizontalCalendar horizontalCalendar = new HorizontalCalendar.Builder(rootView, R.id.calendarView).startDate(startDate.getTime())
+        final HorizontalCalendar horizontalCalendar = new HorizontalCalendar.Builder(rootView, R.id.calendarView).startDate(startDate.getTime())
                 .endDate(endDate.getTime())
                 .datesNumberOnScreen(5)
                 .build();
@@ -51,9 +59,15 @@ public class Tab1dashborad extends android.support.v4.app.Fragment {
             public void onDateSelected(Date date, int position) {
             }
         });
+
+
+
         return rootView;
     }
-}
+
+    }
+
+
 
 /*
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Coach")

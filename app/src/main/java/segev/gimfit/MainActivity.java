@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         viewFlipper = (ViewFlipper) this.findViewById(R.id.viewFlipper);
 
-        FitnessOptions fitnessOptions = FitnessOptions.builder()
+      FitnessOptions fitnessOptions = FitnessOptions.builder()
                 .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
                 .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
                 .build();
@@ -82,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
             //accessGoogleFit();
         //}
 
+   /* Google_fit_api google_fit=new Google_fit_api();
+    google_fit.connect();*/
 
         viewFlipper.setAutoStart(true);
         viewFlipper.setFlipInterval(3000);
