@@ -20,8 +20,26 @@
         android:layout_marginTop="62dp"
         android:onClick="logOut"
         android:text="Log Out"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:id="@+id/button4" />
 
+    <devs.mulham.horizontalcalendar.HorizontalCalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/button4"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="122dp"
+        android:background="#4286f4"
+        app:textColorSelected="#ffffff" />
 
+    <TextView
+        android:id="@+id/calendartext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/calendarView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="65dp" />
 
 </RelativeLayout>
