@@ -35,7 +35,7 @@ public class dashboard_activity extends AppCompatActivity {
         create_single.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent0 = new Intent(dashboard_activity.this, Running_activity.class);
+                Intent intent0 = new Intent(dashboard_activity.this, Create_workout.class);
                 startActivity(intent0);
             }
         });
