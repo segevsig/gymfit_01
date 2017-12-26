@@ -72,6 +72,7 @@ android:supportsRtl="false"
         <activity android:name=".agenda_activity"></activity>
         <activity android:name=".dashboard_activity"></activity>
         <activity android:name=".data_analysis_activity"></activity>
+        <activity android:name=".google_fit_api_test_class"></activity>
     </application>
 
 </manifest>
