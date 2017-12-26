@@ -24,6 +24,7 @@ package segev.gimfit;
         import android.widget.TimePicker;
         import android.widget.Toast;
 
+        import com.facebook.internal.Validate;
         import com.google.android.gms.common.ConnectionResult;
         import com.google.android.gms.common.GoogleApiAvailability;
         import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -370,14 +371,8 @@ public class agenda_activity extends AppCompatActivity {
 
 
             for (Event event : items) {
-                DateTime start =(event.getStart().getDate());
+                DateTime start =event.getStart().getDateTime();
 
-
-
-               if(date.equals(start)){
-                   eventStrings.add(
-                           String.format("%s (%s)", event.getSummary(), start));
-               }
 
 
 
@@ -386,6 +381,13 @@ public class agenda_activity extends AppCompatActivity {
                     // All-day events don't have start times, so just use
                     // the start date.
                     start = event.getStart().getDate();
+                }
+                DateTime dateOnCalender=new DateTime(date);
+                String dateonCalender=dateOnCalender.toString().substring(0,10);
+                String dateEvent=start.toStringRfc3339().substring(0,10);
+                if(dateEvent.equals(dateonCalender)){
+                    eventStrings.add(
+                            String.format("%s", event.getSummary()));
                 }
 
             }
@@ -403,10 +405,10 @@ public class agenda_activity extends AppCompatActivity {
         protected void onPostExecute(List<String> output) {
 
             if (output == null || output.size() == 0) {
-                mOutputText.setText("No results returned.");
+
             } else {
 
-                mOutputText.setText(TextUtils.join("\n", output));
+                mOutputText.setText(TextUtils.join("\n\n\n", output));
             }
         }
 
