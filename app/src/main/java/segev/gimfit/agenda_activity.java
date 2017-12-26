@@ -141,7 +141,7 @@ public class agenda_activity extends AppCompatActivity {
 
     }
 
-    //finsih on create
+    //finןsh on creatק
     private void getResultsFromApi() {
         if (! isGooglePlayServicesAvailable()) {
             acquireGooglePlayServices();
