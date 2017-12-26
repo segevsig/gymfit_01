@@ -1,34 +1,210 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/blue_back"
+    android:background="@color/runningback"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/navigation" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="241dp"
-        android:layout_height="71dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="184dp"
-        android:text="running activity"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-</android.support.constraint.ConstraintLayout>
+
+
+            <ImageView
+                android:id="@+id/boxDistanceId"
+                android:layout_width="match_parent"
+                android:layout_height="74dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/box_backg" />
+
+            <ImageView
+                android:id="@+id/boxDistanceId1"
+                android:layout_width="match_parent"
+                android:layout_height="74dp"
+                android:layout_below="@+id/boxDistanceId"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/box_backg" />
+
+            <ImageView
+                android:id="@+id/boxDistanceId2"
+                android:layout_width="match_parent"
+                android:layout_height="74dp"
+                android:layout_below="@+id/boxDistanceId1"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/box_backg" />
+            <ImageView
+                android:id="@+id/boxDistanceId3"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_below="@+id/boxDistanceId2"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rectangle_sqare" />
+            <ImageView
+                android:id="@+id/boxDistanceId4"
+                android:layout_width="match_parent"
+                android:layout_height="74dp"
+                android:layout_below="@+id/boxDistanceId3"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/box_backg" />
+
+            <ImageView
+                android:id="@+id/boxDistanceId5"
+                android:layout_width="match_parent"
+                android:layout_height="74dp"
+                android:layout_below="@+id/boxDistanceId4"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/box_backg" />
+
+            <TextView
+                android:id="@+id/headLineBoxText4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/editText"
+                android:layout_alignTop="@+id/boxDistanceId4"
+                android:layout_marginTop="16dp"
+                android:text="Athlete"
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/headLineBoxText3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/headLineBoxText"
+                android:layout_alignTop="@+id/boxDistanceId3"
+                android:layout_marginTop="13dp"
+                android:text="Description"
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/headLineBoxText2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/headLineBoxText"
+                android:layout_alignTop="@+id/boxDistanceId2"
+                android:layout_marginTop="13dp"
+                android:text="Type"
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/headLineBoxText1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/headLineBoxText"
+                android:layout_alignTop="@+id/boxDistanceId1"
+                android:layout_marginTop="13dp"
+                android:text="Duration"
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/headLineBoxText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/boxDistanceId"
+                android:layout_alignTop="@+id/boxDistanceId"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="13dp"
+                android:text="Distance"
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <android.support.v7.widget.AppCompatSeekBar
+                android:id="@+id/runningSeekId"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/headLineBoxText"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="50dp" />
+
+            <android.support.v7.widget.AppCompatSeekBar
+                android:id="@+id/runningSeekId2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/headLineBoxText1"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="50dp" />
+            <TextView
+                android:id="@+id/runningDistanceKmId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/headLineBoxText"
+                android:layout_centerHorizontal="true"
+                android:text="KM"
+                android:textSize="15dp"
+                android:textColor="#ffffff" />
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="290dp"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/boxDistanceId1"
+                android:layout_marginTop="115dp"
+                android:layout_centerHorizontal="true"
+                />
+
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="300dp"
+                android:layout_height="60dp"
+                android:layout_alignStart="@+id/spinner"
+                android:layout_below="@+id/headLineBoxText3"
+                android:ems="10"
+                android:inputType="textMultiLine"
+                android:textColor="@color/white"/>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/floatingActionButton"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_above="@+id/runningSeekId"
+                android:layout_alignEnd="@+id/boxDistanceId"
+                android:tint="@color/colorPrimaryDark"
+                app:backgroundTint="@color/white"
+                app:srcCompat="@android:drawable/ic_menu_share" />
+
+
+        </RelativeLayout>
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/navigation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:background="?android:attr/windowBackground"
+            app:menu="@menu/navigation" />
+    </LinearLayout>
+
+    </ScrollView>
+
+
+
+
 

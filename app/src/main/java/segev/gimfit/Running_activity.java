@@ -12,10 +12,19 @@ package segev.gimfit;
         import android.support.v7.app.AppCompatActivity;
         import android.view.Menu;
         import android.view.MenuItem;
+        import android.widget.ImageView;
+        import android.widget.SeekBar;
+        import android.widget.TextView;
         import android.widget.Toast;
 
 
 public class Running_activity extends AppCompatActivity {
+    private ImageView boxDistanceId;
+    private TextView headLineBoxText;
+    private SeekBar runningSeekId;
+    private TextView runningDistanceKmId;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -23,6 +32,32 @@ public class Running_activity extends AppCompatActivity {
         setContentView(R.layout.running_layout);
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+        boxDistanceId =(ImageView) findViewById(R.id.boxDistanceId);
+        headLineBoxText = (TextView) findViewById(R.id.headLineBoxText);
+        runningSeekId = (SeekBar)findViewById(R.id.runningSeekId) ;
+        runningDistanceKmId = (TextView)findViewById(R.id.runningDistanceKmId);
+
+        runningSeekId.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int progress = 0 ;
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progressSeek, boolean fromUser) {
+                progress = progressSeek ;
+                runningDistanceKmId.setText(String.valueOf(progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                runningDistanceKmId.setText(String.valueOf(progress));
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                runningDistanceKmId.setText(String.valueOf(progress));
+
+
+            }
+        });
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
