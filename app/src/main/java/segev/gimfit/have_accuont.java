@@ -79,7 +79,7 @@ public class have_accuont extends AppCompatActivity {
                         @Override
                         public void onDataChange(com.google.firebase.database.DataSnapshot dataSnapshot) {
                            if (dataSnapshot.getValue()!=null){
-                               Intent intent=new Intent(have_accuont.this,Coach_zone.class);
+                               Intent intent=new Intent(have_accuont.this,dashboard_activity.class);
                                Toast.makeText(have_accuont.this,"User is Loged In pass to private page",Toast.LENGTH_LONG).show();
                                startActivity(intent);
                             }else if (true){
@@ -97,6 +97,9 @@ public class have_accuont extends AppCompatActivity {
                         }
                     });
 
+                }
+                else{
+                    Toast.makeText(have_accuont.this,task.getException().toString(),Toast.LENGTH_LONG).show();
                 }
             }
         });

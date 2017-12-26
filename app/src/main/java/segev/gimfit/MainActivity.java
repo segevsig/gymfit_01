@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onDataChange(com.google.firebase.database.DataSnapshot dataSnapshot) {
                         if (dataSnapshot.getValue() != null) {
                             Toast.makeText(MainActivity.this, "User is Loged In pass to private page", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(MainActivity.this, Coach_zone.class);
+                            Intent intent = new Intent(MainActivity.this, dashboard_activity.class);
                             startActivity(intent);
                         } else {
 

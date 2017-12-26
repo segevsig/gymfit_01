@@ -26,8 +26,6 @@ public class Create_workout extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.ic_arrow:
-                        break;
 
                     case R.id.navigation_running:
                         Toast.makeText(Create_workout.this,"Creating running workout",Toast.LENGTH_SHORT).show();

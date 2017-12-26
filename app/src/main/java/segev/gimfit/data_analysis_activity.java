@@ -1,3 +1,7 @@
+/**
+ * Created by segevcohen on 26/12/2017.
+ */
+
 package segev.gimfit;
 
 import android.content.Intent;
@@ -11,16 +15,17 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 
-public class Biking_activity extends AppCompatActivity {
+
+public class data_analysis_activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.biking_layout);
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
+        setContentView(R.layout.data_analysis_layout);
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation2);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem = menu.getItem(1);
+        MenuItem menuItem = menu.getItem(2);
         menuItem.setChecked(true);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -28,20 +33,21 @@ public class Biking_activity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
 
-                    case R.id.navigation_biking:
-                        Toast.makeText(Biking_activity.this,"You are on the requested page",Toast.LENGTH_SHORT).show();
-
+                    case R.id.navigation_agenda:
+                        Toast.makeText(data_analysis_activity.this,"Welcome to Agenda",Toast.LENGTH_SHORT).show();
+                        Intent intent1 = new Intent(data_analysis_activity.this, agenda_activity.class);
+                        startActivity(intent1);
                         break;
-                    case R.id.navigation_running:
-                        Toast.makeText(Biking_activity.this,"Creating running workout",Toast.LENGTH_SHORT).show();
-                        Intent intent2 = new Intent(Biking_activity.this, Running_activity.class);
+
+
+                    case R.id.navigation_dashboard:
+                        Toast.makeText(data_analysis_activity.this,"You are on the requested page",Toast.LENGTH_SHORT).show();
+                        Intent intent2 = new Intent(data_analysis_activity.this, dashboard_activity.class);
                         startActivity(intent2);
                         break;
 
-                    case R.id.navigation_gym:
-                        Toast.makeText(Biking_activity.this,"Creating gym workout",Toast.LENGTH_SHORT).show();
-                        Intent intent3 = new Intent(Biking_activity.this, Gym_activity.class);
-                        startActivity(intent3);
+                    case R.id.navigation_data_analisys:
+                        Toast.makeText(data_analysis_activity.this,"You are on the requested page",Toast.LENGTH_SHORT).show();
                         break;
                 }
 

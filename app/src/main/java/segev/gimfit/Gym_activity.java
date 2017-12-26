@@ -20,17 +20,13 @@ public class Gym_activity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem = menu.getItem(3);
+        MenuItem menuItem = menu.getItem(2);
         menuItem.setChecked(true);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.ic_arrow:
-                        Intent intent0 = new Intent(Gym_activity.this, MainActivity.class);
-                        startActivity(intent0);
-                        break;
 
                     case R.id.navigation_gym:
                         Toast.makeText(Gym_activity.this,"You are on the requested page",Toast.LENGTH_SHORT).show();
