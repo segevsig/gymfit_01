@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Gimfit.iml" filepath="$PROJECT_DIR$/Gimfit.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gymfit_01.iml" filepath="$PROJECT_DIR$/gymfit_01.iml" />
       <module fileurl="file://C:\Users\LENOVO\AndroidStudioProjects\Gimfit\gymfit_01.iml" filepath="C:\Users\LENOVO\AndroidStudioProjects\Gimfit\gymfit_01.iml" />
     </modules>
   </component>

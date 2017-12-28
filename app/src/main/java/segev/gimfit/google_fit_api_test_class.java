@@ -50,7 +50,7 @@ public class google_fit_api_test_class extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.google_fir_api_test);
+        setContentView(R.layout.google_fit_api_test);
 
         initViews();
 
