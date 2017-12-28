@@ -202,9 +202,4 @@
             app:menu="@menu/navigation" />
     </LinearLayout>
 
-    </ScrollView>
-
-
-
-
-
+</ScrollView>

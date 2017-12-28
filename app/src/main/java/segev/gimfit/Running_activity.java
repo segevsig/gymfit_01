@@ -4,18 +4,18 @@ package segev.gimfit;
  * Created by LENOVO on 24/12/2017.
  */
 
-        import android.content.Intent;
-        import android.os.Bundle;
-        import android.support.annotation.NonNull;
-        import android.support.annotation.Nullable;
-        import android.support.design.widget.BottomNavigationView;
-        import android.support.v7.app.AppCompatActivity;
-        import android.view.Menu;
-        import android.view.MenuItem;
-        import android.widget.ImageView;
-        import android.widget.SeekBar;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class Running_activity extends AppCompatActivity {

@@ -141,7 +141,7 @@ public class agenda_activity extends AppCompatActivity {
 
     }
 
-    //finןsh on creatק
+    //finsih on create
     private void getResultsFromApi() {
         if (! isGooglePlayServicesAvailable()) {
             acquireGooglePlayServices();
@@ -372,9 +372,6 @@ public class agenda_activity extends AppCompatActivity {
 
             for (Event event : items) {
                 DateTime start =event.getStart().getDateTime();
-
-
-
 
 
                 if (start == null) {
