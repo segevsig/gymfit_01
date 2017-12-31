@@ -64,6 +64,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/box_backg" />
 
+
             <ImageView
                 android:id="@+id/boxDistanceId5"
                 android:layout_width="match_parent"
@@ -162,7 +163,7 @@
                 android:textColor="#ffffff" />
 
             <Spinner
-                android:id="@+id/spinner"
+                android:id="@+id/spinnerRunning"
                 android:layout_width="290dp"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/boxDistanceId1"
@@ -174,7 +175,7 @@
                 android:id="@+id/editText"
                 android:layout_width="300dp"
                 android:layout_height="60dp"
-                android:layout_alignStart="@+id/spinner"
+                android:layout_alignStart="@+id/spinnerRunning"
                 android:layout_below="@+id/headLineBoxText3"
                 android:ems="10"
                 android:inputType="textMultiLine"

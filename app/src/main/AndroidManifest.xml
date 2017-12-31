@@ -42,7 +42,6 @@
         <activity android:name=".login_step2" />
         <activity android:name=".login_step3" />
         <activity android:name=".login_step4" />
-        <activity android:name=".Blueooth_conction" />
         <activity
             android:name=".TrainerPageArea"
             android:label="@string/title_activity_trainer_page_area"

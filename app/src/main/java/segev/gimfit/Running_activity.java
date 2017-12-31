@@ -12,8 +12,10 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +24,11 @@ public class Running_activity extends AppCompatActivity {
     private ImageView boxDistanceId;
     private TextView headLineBoxText;
     private SeekBar runningSeekId;
+    private SeekBar DurationSeekId;
     private TextView runningDistanceKmId;
+    private TextView DurationDistanceKmId;
+
+
 
 
 
@@ -35,8 +41,17 @@ public class Running_activity extends AppCompatActivity {
         boxDistanceId =(ImageView) findViewById(R.id.boxDistanceId);
         headLineBoxText = (TextView) findViewById(R.id.headLineBoxText);
         runningSeekId = (SeekBar)findViewById(R.id.runningSeekId) ;
+        DurationSeekId = (SeekBar)findViewById(R.id.runningSeekId2) ;
         runningDistanceKmId = (TextView)findViewById(R.id.runningDistanceKmId);
 
+
+        Spinner spinnerRunning = (Spinner) findViewById(R.id.spinnerRunning);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.TypeOfTraningRunning, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerRunning.setAdapter(adapter);
+
+        runningSeekId.setMax(50);
         runningSeekId.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progress = 0 ;
             @Override
