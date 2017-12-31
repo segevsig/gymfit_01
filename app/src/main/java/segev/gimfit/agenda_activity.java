@@ -20,6 +20,9 @@ package segev.gimfit;
         import android.text.TextUtils;
         import android.view.Menu;
         import android.view.MenuItem;
+        import android.widget.ArrayAdapter;
+        import android.widget.ListAdapter;
+        import android.widget.ListView;
         import android.widget.TextView;
         import android.widget.TimePicker;
         import android.widget.Toast;
@@ -39,6 +42,8 @@ package segev.gimfit;
         import com.google.api.services.calendar.CalendarScopes;
         import com.google.api.services.calendar.model.Event;
         import com.google.api.services.calendar.model.Events;
+
+        import org.json.JSONArray;
 
         import java.io.IOException;
         import java.sql.Time;
@@ -70,13 +75,16 @@ public class agenda_activity extends AppCompatActivity {
     private static final String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
     Date date=new Date();
 
+    ListView listView ;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.agenda_layout);
 
 
-
+        listView=findViewById(R.id.listview);
 
 
 
@@ -401,10 +409,14 @@ public class agenda_activity extends AppCompatActivity {
         protected void onPostExecute(List<String> output) {
 
             if (output == null || output.size() == 0) {
+                listView.setAdapter(null);
 
             } else {
+                String[] array = output.toArray(new String[0]);
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(agenda_activity.this, android.R.layout.simple_list_item_1, output);
 
-                mOutputText.setText(TextUtils.join("\n\n\n", output));
+                listView.setAdapter(arrayAdapter);
+               // mOutputText.setText(TextUtils.join("\n\n\n", output));
             }
         }
 
