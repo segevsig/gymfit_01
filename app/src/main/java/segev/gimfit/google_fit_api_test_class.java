@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
@@ -28,12 +27,16 @@ import com.google.android.gms.fitness.request.DataUpdateRequest;
 import com.google.android.gms.fitness.result.DailyTotalResult;
 import com.google.android.gms.fitness.result.DataReadResult;
 
-
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import static com.google.android.gms.common.Scopes.FITNESS_ACTIVITY_READ_WRITE;
+import static com.google.android.gms.common.Scopes.FITNESS_BODY_READ_WRITE;
+import static com.google.android.gms.common.Scopes.FITNESS_LOCATION_READ_WRITE;
+import static com.google.android.gms.common.Scopes.FITNESS_NUTRITION_READ_WRITE;
 
 
 public class google_fit_api_test_class extends AppCompatActivity implements
@@ -56,24 +59,27 @@ public class google_fit_api_test_class extends AppCompatActivity implements
     private String HrBpm;
     private String Distance;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.google_fit_api_test);
         initViews();
-
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Fitness.HISTORY_API)
-                .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ_WRITE))
+                .addScope(new Scope(FITNESS_ACTIVITY_READ_WRITE))
+                .addScope(new Scope(FITNESS_BODY_READ_WRITE))
+                .addScope(new Scope(FITNESS_LOCATION_READ_WRITE))
+                .addScope(new Scope(FITNESS_NUTRITION_READ_WRITE))
                 .addConnectionCallbacks(this)
                 .enableAutoManage(this, 0, this)
                 .build();
         mGoogleApiClient.connect();
+
         TextView text_1 = (TextView)findViewById(R.id.textView3) ;
         TextView text_2 = (TextView)findViewById(R.id.textView4) ;
         TextView text_3 = (TextView)findViewById(R.id.textView5) ;
         TextView text_4 = (TextView)findViewById(R.id.textView6);
+
 
     }
 
@@ -103,10 +109,10 @@ public class google_fit_api_test_class extends AppCompatActivity implements
         steps = showDataSet(stepsToday.getTotal());
         DailyTotalResult caloriesBurned = Fitness.HistoryApi.readDailyTotal(mGoogleApiClient, DataType.TYPE_CALORIES_EXPENDED).await(1, TimeUnit.MINUTES);
         cal = showDataSet(caloriesBurned.getTotal());
-        //DailyTotalResult heartRate = Fitness.HistoryApi.readDailyTotal( mGoogleApiClient, DataType.TYPE_HEART_RATE_BPM).await(1, TimeUnit.MINUTES);
-        //HrBpm = showDataSet(heartRate.getTotal());
-        //DailyTotalResult distanceToday = Fitness.HistoryApi.readDailyTotal( mGoogleApiClient, DataType.TYPE_DISTANCE_DELTA).await(1, TimeUnit.MINUTES);
-        //Distance = showDataSet(distanceToday.getTotal());
+        DailyTotalResult heartRate = Fitness.HistoryApi.readDailyTotal( mGoogleApiClient, DataType.TYPE_HEART_RATE_BPM).await(1, TimeUnit.MINUTES);
+        HrBpm = showDataSet(heartRate.getTotal());
+        DailyTotalResult distanceToday = Fitness.HistoryApi.readDailyTotal( mGoogleApiClient, DataType.TYPE_DISTANCE_DELTA).await(1, TimeUnit.MINUTES);
+        Distance = showDataSet(distanceToday.getTotal());
     }
 
 
@@ -151,7 +157,7 @@ public class google_fit_api_test_class extends AppCompatActivity implements
 
 
     private String showDataSet(DataSet dataSet) {
-        Log.e("History", "Data returned for Data type: " + dataSet.getDataType().getName());
+        Log.e("Historysegev", "Data returned for Data type: " + dataSet.getDataType().getName());
         DateFormat dateFormat = DateFormat.getDateInstance();
         DateFormat timeFormat = DateFormat.getTimeInstance();
         String counter = " ";
@@ -304,10 +310,10 @@ return counter;
             text_1.setText(steps);
             text_2 = (TextView)findViewById(R.id.textView4);
             text_2.setText(cal);
-           // text_3 = (TextView)findViewById(R.id.textView5);
-            //text_3.setText(HrBpm);
-            //text_4 = (TextView)findViewById(R.id.textView5);
-            //text_4.setText(Distance);
+            text_3 = (TextView)findViewById(R.id.textView5);
+            text_3.setText(HrBpm);
+            text_4 = (TextView)findViewById(R.id.textView6);
+            text_4.setText(Distance);
 
 
         }
