@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
@@ -27,6 +28,7 @@ import com.google.android.gms.fitness.request.DataUpdateRequest;
 import com.google.android.gms.fitness.result.DailyTotalResult;
 import com.google.android.gms.fitness.result.DataReadResult;
 
+
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -44,14 +46,21 @@ public class google_fit_api_test_class extends AppCompatActivity implements
     private Button mButtonAddSteps;
     private Button mButtonUpdateSteps;
     private Button mButtonDeleteSteps;
-
     private GoogleApiClient mGoogleApiClient;
+    private TextView text_1;
+    private TextView text_2;
+    private TextView text_3;
+    private TextView text_4;
+    private String steps;
+    private  String cal;
+    private String HrBpm;
+    private String Distance;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.google_fit_api_test);
-
         initViews();
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -60,9 +69,17 @@ public class google_fit_api_test_class extends AppCompatActivity implements
                 .addConnectionCallbacks(this)
                 .enableAutoManage(this, 0, this)
                 .build();
+        mGoogleApiClient.connect();
+        TextView text_1 = (TextView)findViewById(R.id.textView3) ;
+        TextView text_2 = (TextView)findViewById(R.id.textView4) ;
+        TextView text_3 = (TextView)findViewById(R.id.textView5) ;
+        TextView text_4 = (TextView)findViewById(R.id.textView6);
+
     }
 
+
     private void initViews() {
+
         mButtonViewWeek = (Button) findViewById(R.id.btn_view_week);
         mButtonViewToday = (Button) findViewById(R.id.btn_view_today);
         mButtonAddSteps = (Button) findViewById(R.id.btn_add_steps);
@@ -82,9 +99,16 @@ public class google_fit_api_test_class extends AppCompatActivity implements
 
     //In use, call this every 30 seconds in active mode, 60 in ambient on watch faces
     private void displayStepDataForToday() {
-        DailyTotalResult result = Fitness.HistoryApi.readDailyTotal( mGoogleApiClient, DataType.TYPE_STEP_COUNT_DELTA ).await(1, TimeUnit.MINUTES);
-        showDataSet(result.getTotal());
+        DailyTotalResult stepsToday = Fitness.HistoryApi.readDailyTotal( mGoogleApiClient, DataType.TYPE_STEP_COUNT_DELTA ).await(1, TimeUnit.MINUTES);
+        steps = showDataSet(stepsToday.getTotal());
+        DailyTotalResult caloriesBurned = Fitness.HistoryApi.readDailyTotal(mGoogleApiClient, DataType.TYPE_CALORIES_EXPENDED).await(1, TimeUnit.MINUTES);
+        cal = showDataSet(caloriesBurned.getTotal());
+        //DailyTotalResult heartRate = Fitness.HistoryApi.readDailyTotal( mGoogleApiClient, DataType.TYPE_HEART_RATE_BPM).await(1, TimeUnit.MINUTES);
+        //HrBpm = showDataSet(heartRate.getTotal());
+        //DailyTotalResult distanceToday = Fitness.HistoryApi.readDailyTotal( mGoogleApiClient, DataType.TYPE_DISTANCE_DELTA).await(1, TimeUnit.MINUTES);
+        //Distance = showDataSet(distanceToday.getTotal());
     }
+
 
     private void displayLastWeeksData() {
         Calendar cal = Calendar.getInstance();
@@ -106,10 +130,9 @@ public class google_fit_api_test_class extends AppCompatActivity implements
                 .build();
 
         DataReadResult dataReadResult = Fitness.HistoryApi.readData(mGoogleApiClient, readRequest).await(1, TimeUnit.MINUTES);
-
         //Used for aggregated data
         if (dataReadResult.getBuckets().size() > 0) {
-            Log.e("History", "Number of buckets: " + dataReadResult.getBuckets().size());
+            Log.e("HistorySegev", "Number of buckets: " + dataReadResult.getBuckets().size());
             for (Bucket bucket : dataReadResult.getBuckets()) {
                 List<DataSet> dataSets = bucket.getDataSets();
                 for (DataSet dataSet : dataSets) {
@@ -127,21 +150,24 @@ public class google_fit_api_test_class extends AppCompatActivity implements
     }
 
 
-    private void showDataSet(DataSet dataSet) {
+    private String showDataSet(DataSet dataSet) {
         Log.e("History", "Data returned for Data type: " + dataSet.getDataType().getName());
         DateFormat dateFormat = DateFormat.getDateInstance();
         DateFormat timeFormat = DateFormat.getTimeInstance();
-
+        String counter = " ";
         for (DataPoint dp : dataSet.getDataPoints()) {
-            Log.e("History", "Data point:");
-            Log.e("History", "\tType: " + dp.getDataType().getName());
-            Log.e("History", "\tStart: " + dateFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)) + " " + timeFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)));
-            Log.e("History", "\tEnd: " + dateFormat.format(dp.getEndTime(TimeUnit.MILLISECONDS)) + " " + timeFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)));
+            Log.e("HistoryNiv", "Data point:");
+            Log.e("HistoryNiv", "\tType: " + dp.getDataType().getName());
+            Log.e("HistoryNiv", "\tStart: " + dateFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)) + " " + timeFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)));
+            Log.e("HistoryNiv", "\tEnd: " + dateFormat.format(dp.getEndTime(TimeUnit.MILLISECONDS)) + " " + timeFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)));
             for(Field field : dp.getDataType().getFields()) {
-                Log.e("History", "\tField: " + field.getName() +
+                Log.e("HistoryNiv", "\tField: " + field.getName() +
                         " Value: " + dp.getValue(field));
+                        counter = dp.getValue(field).toString();
+
             }
         }
+return counter;
     }
 
     private void addStepDataToGoogleFit() {
@@ -269,6 +295,21 @@ public class google_fit_api_test_class extends AppCompatActivity implements
         protected Void doInBackground(Void... params) {
             displayStepDataForToday();
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            text_1 = (TextView)findViewById(R.id.textView3) ;
+            text_1.setText(steps);
+            text_2 = (TextView)findViewById(R.id.textView4);
+            text_2.setText(cal);
+           // text_3 = (TextView)findViewById(R.id.textView5);
+            //text_3.setText(HrBpm);
+            //text_4 = (TextView)findViewById(R.id.textView5);
+            //text_4.setText(Distance);
+
+
         }
     }
 

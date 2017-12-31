@@ -2,6 +2,7 @@
     <string name="app_name">Gymfit</string>
     <string name="selected_coach">Selected coach:</string>
     <string name="your_goal">Your goal:</string>
+
     <string-array name="coaches">
         <item>Selected coach</item>
         <item>segev</item>
