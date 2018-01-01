@@ -10,12 +10,15 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class dashboard_activity extends AppCompatActivity {
@@ -31,11 +34,15 @@ public class dashboard_activity extends AppCompatActivity {
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
 
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
+
         create_single = (Button)findViewById(R.id.button5);
         create_single.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent0 = new Intent(dashboard_activity.this, Create_workout.class);
+                Intent intent0 = new Intent(dashboard_activity.this, Running_activity.class);
                 startActivity(intent0);
             }
         });
@@ -66,6 +73,35 @@ public class dashboard_activity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_dashboard, menu);
+        return true;
+    }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.dashboard_settings) {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(dashboard_activity.this,MainActivity.class);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void logOut(View view) {
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(dashboard_activity.this,MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 }

@@ -1,5 +1,6 @@
 package segev.gimfit;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,6 +36,8 @@ public class have_accuont extends AppCompatActivity {
     String email  ;
     String password;
     private DatabaseReference mdatabase;
+    ProgressDialog progress;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,8 @@ public class have_accuont extends AppCompatActivity {
             public void onClick(View view) {
                  email  = Username.getText().toString();
                 password  = Password.getText().toString();
+                progress = ProgressDialog.show(have_accuont.this, "Verifying Data ",
+                        "Checking mail and password ", true);
                 checklogin(view);
             }
         });
@@ -73,6 +78,7 @@ public class have_accuont extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
+
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Coach")
                             .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
                     ref.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
@@ -82,7 +88,8 @@ public class have_accuont extends AppCompatActivity {
                                Intent intent=new Intent(have_accuont.this,dashboard_activity.class);
                                Toast.makeText(have_accuont.this,"User is Loged In pass to private page",Toast.LENGTH_LONG).show();
                                startActivity(intent);
-                            }else if (true){
+                               progress.dismiss();
+                           }else if (true){
                                 Intent intent = new Intent(have_accuont.this,TrainerPageArea.class);
                                 startActivity(intent);
                                 Toast.makeText(have_accuont.this,"User is Loged In pass to private page",Toast.LENGTH_LONG).show();
