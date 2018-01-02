@@ -80,5 +80,16 @@ public class add_session extends AppCompatActivity implements View.OnClickListen
             timePickerDialog.show();
         }
     }
+
+    public class addManualSession{
+        private int mYear, mMonth, mDay, mHour, mMinute;
+        private String descri;
+
+
+
+    }
 }
+
+
+
 
