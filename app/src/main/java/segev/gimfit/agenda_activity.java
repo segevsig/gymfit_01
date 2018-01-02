@@ -65,6 +65,7 @@ package segev.gimfit;
 public class agenda_activity extends AppCompatActivity {
     GoogleAccountCredential mCredential;
     private TextView mOutputText;
+    String hour;
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
@@ -389,9 +390,10 @@ public class agenda_activity extends AppCompatActivity {
                 DateTime dateOnCalender=new DateTime(date);
                 String dateonCalender=dateOnCalender.toString().substring(0,10);
                 String dateEvent=start.toStringRfc3339().substring(0,10);
+                hour=start.toStringRfc3339().substring(11,16);
                 if(dateEvent.equals(dateonCalender)){
                     eventStrings.add(
-                            String.format("%s", event.getSummary()));
+                            String.format("%s %s",hour,event.getSummary()));
                 }
 
             }
@@ -413,7 +415,7 @@ public class agenda_activity extends AppCompatActivity {
 
             } else {
                 String[] array = output.toArray(new String[0]);
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(agenda_activity.this, android.R.layout.simple_list_item_1, output);
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(agenda_activity.this, android.R.layout.simple_list_item_1, array);
 
                 listView.setAdapter(arrayAdapter);
                // mOutputText.setText(TextUtils.join("\n\n\n", output));
