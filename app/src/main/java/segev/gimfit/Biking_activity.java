@@ -23,7 +23,7 @@ public class Biking_activity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent newone = new Intent(Biking_activity.this, google_fit_api_test_class.class);
+                Intent newone = new Intent(Biking_activity.this, athlete_area_playground.class);
                 startActivity(newone);
             }
         });

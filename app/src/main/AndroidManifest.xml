@@ -46,7 +46,6 @@
             android:name=".TrainerPageArea"
             android:label="@string/title_activity_trainer_page_area"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".step_counter" />
         <activity android:name=".Create_workout"></activity>
         <activity android:name=".Gym_activity"></activity>
         <activity android:name=".Running_activity"></activity>
@@ -55,7 +54,9 @@
         <activity android:name=".agenda_activity"></activity>
         <activity android:name=".dashboard_activity"></activity>
         <activity android:name=".data_analysis_activity"></activity>
-        <activity android:name=".google_fit_api_test_class"></activity>
+        <activity android:name=".athlete_area_playground" />
+        <activity android:name=".session_athlete"/>
+        <activity android:name=".add_session"></activity>
     </application>
 
 </manifest>

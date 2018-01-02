@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backAddSes"
+    android:orientation="vertical">
+
+
+    <EditText
+        android:id="@+id/steps_text_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/calories_text_id"
+        android:layout_alignBottom="@+id/calories_text_id"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="11dp"
+        android:ems="5"
+        android:inputType="textPersonName"
+        android:hint="Steps" />
+
+    <EditText
+        android:id="@+id/calories_text_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/distance_text_id"
+        android:layout_alignBottom="@+id/distance_text_id"
+        android:layout_centerHorizontal="true"
+        android:ems="5"
+        android:inputType="textPersonName"
+        android:hint="Calories" />
+
+    <EditText
+        android:id="@+id/distance_text_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/description_text_id"
+        android:layout_below="@+id/minuets_text_id"
+        android:layout_marginTop="38dp"
+        android:ems="5"
+        android:inputType="textPersonName"
+        android:hint="Distance" />
+
+    <EditText
+        android:id="@+id/hours_text_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/description_text_id"
+        android:layout_marginTop="-100dp"
+        android:layout_alignStart="@+id/steps_text_id"
+        android:layout_centerVertical="true"
+        android:ems="5"
+        android:inputType="textPersonName"
+        android:hint="Hours" />
+
+    <EditText
+        android:id="@+id/minuets_text_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/hours_text_id"
+        android:layout_alignBottom="@+id/hours_text_id"
+        android:layout_alignStart="@+id/calories_text_id"
+        android:ems="5"
+        android:inputType="textPersonName"
+        android:hint="Minuets" />
+
+    <EditText
+        android:id="@+id/seconds_text_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/minuets_text_id"
+        android:layout_alignBottom="@+id/minuets_text_id"
+        android:layout_alignStart="@+id/distance_text_id"
+        android:ems="5"
+        android:inputType="textPersonName"
+        android:hint="Seconds" />
+
+    <MultiAutoCompleteTextView
+        android:id="@+id/description_text_id"
+        android:layout_width="match_parent"
+        android:hint="Description"
+        android:layout_marginTop="10dp"
+        android:paddingStart="5dp"
+        android:layout_below="@id/date_picker_id"
+        android:layout_marginEnd="20dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="123dp"
+        />
+
+    <EditText
+        android:id="@+id/date_picker_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/time_picker_id"
+        android:layout_alignBottom="@+id/time_picker_id"
+        android:layout_alignStart="@+id/hours_text_id"
+        android:layout_marginStart="11dp"
+        android:ems="5"
+        android:inputType="textPersonName"
+        android:hint="Date" />
+
+    <EditText
+        android:id="@+id/time_picker_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/description_text_id"
+        android:layout_below="@+id/session_type_id"
+        android:layout_marginEnd="7dp"
+        android:layout_marginTop="25dp"
+        android:ems="5"
+        android:inputType="textPersonName"
+        android:hint="Time" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="-20dp"
+        app:srcCompat="@drawable/running_athletes" />
+    <Spinner
+        android:id="@+id/session_type_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageView7"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SAVE"
+        android:textSize="20dp"
+        android:layout_below="@id/calories_text_id"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>
