@@ -18,11 +18,55 @@
     </string-array>
 
     <string-array name="TypeOfTraningRunning">
+        <item>Select type of workout</item>
         <item>Basic</item>
         <item>Long</item>
         <item>Intervals</item>
         <item>Tempo</item>
     </string-array>
+
+    <string-array name="TypeOfTraningBiking">
+        <item>Select type of workout</item>
+        <item>Aerobic Endurance</item>
+        <item>Strength Endurance</item>
+        <item>VO2 Max</item>
+    </string-array>
+
+    <string-array name="TypeOfTraningGym">
+        <item>Select type of workout</item>
+        <item>Push (chest,shoulders,triceps)</item>
+        <item>Pull (back,biceps)</item>
+        <item>Legs (quads,hamstrings,calves)</item>
+    </string-array>
+
+    <string-array name="TypeOfTraningGymPush">
+        <item>Select type of workout</item>
+        <item>Bench press</item>
+        <item>Incline bench press</item>
+        <item>Push down</item>
+        <item>Shoulders press</item>
+        <item>Triceps extenstion</item>
+    </string-array>
+
+    <string-array name="TypeOfTraningGymPull">
+        <item>Select type of workout</item>
+        <item>Pull up</item>
+        <item>Bent over row</item>
+        <item>Seated row</item>
+        <item>Curl</item>
+        <item>Hammer curl</item>
+        <item>Deadlift</item>
+    </string-array>
+
+    <string-array name="TypeOfTraningGymLegs">
+        <item>Select type of workout</item>
+        <item>Squat</item>
+        <item>Legs press</item>
+        <item>Legs curl</item>
+        <item>Standing calf raise</item>
+        <item>Romanian deadlift</item>
+    </string-array>
+
     <string name="action_settings">Settings</string>
     <string name="from_date">From Date</string>
     <string name="to_date">To Date</string>

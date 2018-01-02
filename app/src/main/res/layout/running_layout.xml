@@ -1,206 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/runningback"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    android:background="#3E4A54">
     <LinearLayout android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
-        <RelativeLayout
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/running_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="#5050FF"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            android:layout_gravity="top"
+            app:titleTextColor="@color/white"
+            app:title="Create Running Workout"
+            />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Distanse"
+            android:textSize="25dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:paddingTop="10dp"/>
 
+        <SeekBar
+            android:id="@+id/distanseSeekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"/>
 
-            <ImageView
-                android:id="@+id/boxDistanceId"
-                android:layout_width="match_parent"
-                android:layout_height="74dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="40dp"
-                android:background="@drawable/box_backg" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Duration"
+            android:textSize="25dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:paddingTop="20dp"/>
 
-            <ImageView
-                android:id="@+id/boxDistanceId1"
-                android:layout_width="match_parent"
-                android:layout_height="74dp"
-                android:layout_below="@+id/boxDistanceId"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/box_backg" />
+        <SeekBar
+            android:id="@+id/durationSeekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="25dp"/>
 
-            <ImageView
-                android:id="@+id/boxDistanceId2"
-                android:layout_width="match_parent"
-                android:layout_height="74dp"
-                android:layout_below="@+id/boxDistanceId1"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/box_backg" />
-            <ImageView
-                android:id="@+id/boxDistanceId3"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_below="@+id/boxDistanceId2"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/rectangle_sqare" />
-            <ImageView
-                android:id="@+id/boxDistanceId4"
-                android:layout_width="match_parent"
-                android:layout_height="74dp"
-                android:layout_below="@+id/boxDistanceId3"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/box_backg" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Workout Type"
+            android:textSize="25dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:paddingTop="30dp"/>
 
+        <Spinner
+            android:id="@+id/spinnerWorkoutType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="35dp"/>
 
-            <ImageView
-                android:id="@+id/boxDistanceId5"
-                android:layout_width="match_parent"
-                android:layout_height="74dp"
-                android:layout_below="@+id/boxDistanceId4"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/box_backg" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Descrption"
+            android:textSize="25dp"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/headLineBoxText4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/editText"
-                android:layout_alignTop="@+id/boxDistanceId4"
-                android:layout_marginTop="16dp"
-                android:text="Athlete"
-                android:textColor="#ffffff"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+        <MultiAutoCompleteTextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Write here the workout description"
+            android:paddingTop="40dp"/>
 
-            <TextView
-                android:id="@+id/headLineBoxText3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/headLineBoxText"
-                android:layout_alignTop="@+id/boxDistanceId3"
-                android:layout_marginTop="13dp"
-                android:text="Description"
-                android:textColor="#ffffff"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:textSize="25dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
 
-            <TextView
-                android:id="@+id/headLineBoxText2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/headLineBoxText"
-                android:layout_alignTop="@+id/boxDistanceId2"
-                android:layout_marginTop="13dp"
-                android:text="Type"
-                android:textColor="#ffffff"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+        <EditText
+            android:id="@+id/date_picker_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Date" />
 
-            <TextView
-                android:id="@+id/headLineBoxText1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/headLineBoxText"
-                android:layout_alignTop="@+id/boxDistanceId1"
-                android:layout_marginTop="13dp"
-                android:text="Duration"
-                android:textColor="#ffffff"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hour"
+            android:textSize="25dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
 
+        <EditText
+            android:id="@+id/time_picker_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Time" />
 
-            <TextView
-                android:id="@+id/headLineBoxText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/boxDistanceId"
-                android:layout_alignTop="@+id/boxDistanceId"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="13dp"
-                android:text="Distance"
-                android:textColor="#ffffff"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
-            <android.support.v7.widget.AppCompatSeekBar
-                android:id="@+id/runningSeekId"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/headLineBoxText"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="50dp" />
-
-            <android.support.v7.widget.AppCompatSeekBar
-                android:id="@+id/runningSeekId2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/headLineBoxText1"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="50dp" />
-            <TextView
-                android:id="@+id/runningDistanceKmId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/headLineBoxText"
-                android:layout_centerHorizontal="true"
-                android:text="KM"
-                android:textSize="15dp"
-                android:textColor="#ffffff" />
-
-            <Spinner
-                android:id="@+id/spinnerRunning"
-                android:layout_width="290dp"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/boxDistanceId1"
-                android:layout_marginTop="115dp"
-                android:layout_centerHorizontal="true"
-                />
-
-            <EditText
-                android:id="@+id/editText"
-                android:layout_width="300dp"
-                android:layout_height="60dp"
-                android:layout_alignStart="@+id/spinnerRunning"
-                android:layout_below="@+id/headLineBoxText3"
-                android:ems="10"
-                android:inputType="textMultiLine"
-                android:textColor="@color/white"/>
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/floatingActionButton"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_above="@+id/runningSeekId"
-                android:layout_alignEnd="@+id/boxDistanceId"
-                android:tint="@color/colorPrimaryDark"
-                app:backgroundTint="@color/white"
-                app:srcCompat="@android:drawable/ic_menu_share" />
-
-
-        </RelativeLayout>
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/navigation"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
+            android:layout_height="wrap_content"
             android:background="?android:attr/windowBackground"
+            android:layout_gravity="bottom"
+            android:paddingBottom="20dp"
             app:menu="@menu/navigation" />
-    </LinearLayout>
 
+
+    </LinearLayout>
 </ScrollView>
