@@ -433,14 +433,6 @@ public class agenda_activity extends AppCompatActivity {
             }
         }
     }
-/*
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return super.onTouchEvent(event);
-        switch (event.getAction()){
-            case   event.ACTION_DOWN:
-                x1 = event.
 
-        }*/
     }
 
