@@ -18,7 +18,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -86,7 +85,6 @@ public class athlete_area_playground extends AppCompatActivity implements
     private TextView text_1;
     private TextView text_2;
     private TextView text_3;
-    private Button syncButton;
     GoogleAccountCredential mCredential;
     private TextView mOutputText;
     String hour;

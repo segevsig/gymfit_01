@@ -5,25 +5,63 @@
 package segev.gimfit;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.fitness.Fitness;
+import com.google.android.gms.fitness.data.DataPoint;
+import com.google.android.gms.fitness.data.DataSet;
+import com.google.android.gms.fitness.data.DataType;
+import com.google.android.gms.fitness.data.Field;
+import com.google.android.gms.fitness.result.DailyTotalResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+
+import java.text.DateFormat;
+import java.util.concurrent.TimeUnit;
+
+import static com.google.android.gms.common.Scopes.FITNESS_ACTIVITY_READ_WRITE;
+import static com.google.android.gms.common.Scopes.FITNESS_BODY_READ_WRITE;
+import static com.google.android.gms.common.Scopes.FITNESS_LOCATION_READ_WRITE;
+import static com.google.android.gms.common.Scopes.FITNESS_NUTRITION_READ_WRITE;
 
 
-public class dashboard_activity extends AppCompatActivity {
+public class dashboard_activity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks
+        ,GoogleApiClient.OnConnectionFailedListener {
 
-    Button create_single;
+    private String steps;
+    private String cal;
+    private String Distance;
+    private TextView stepsText;
+    private TextView caloriesText;
+    private TextView distanceText;
+    private ImageButton createSingleWorkout;
+    private ImageButton coacherGroupWorkout;
+    private ImageButton coacherNotes;
+    private ImageButton coacherMessaging;
+    private ImageButton coacherAthletesList;
+    private ImageButton coacherSupport;
+    private ImageButton coacherLogout;
+    private GoogleApiClient mGoogleApiClient;
+    private DatabaseReference userName;
+
+
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,19 +71,37 @@ public class dashboard_activity extends AppCompatActivity {
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Fitness.HISTORY_API)
+                .addScope(new Scope(FITNESS_ACTIVITY_READ_WRITE))
+                .addScope(new Scope(FITNESS_BODY_READ_WRITE))
+                .addScope(new Scope(FITNESS_LOCATION_READ_WRITE))
+                .addScope(new Scope(FITNESS_NUTRITION_READ_WRITE))
+                .addConnectionCallbacks(this)
+                .enableAutoManage(this, 0, this)
+                .build();
+        mGoogleApiClient.connect();
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
+        coacherLogout = (ImageButton) this.findViewById(R.id.coacherLogout);
+        coacherLogout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FirebaseAuth.getInstance().signOut();
+                    Intent intent = new Intent(dashboard_activity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
 
-
-        create_single = (Button)findViewById(R.id.button5);
-        create_single.setOnClickListener(new View.OnClickListener() {
+        createSingleWorkout = (ImageButton)findViewById(R.id.coacherSingleWorkout);
+        createSingleWorkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent0 = new Intent(dashboard_activity.this, Running_activity.class);
                 startActivity(intent0);
             }
         });
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -74,7 +130,37 @@ public class dashboard_activity extends AppCompatActivity {
             }
         });
     }
+    public void onConnected(@Nullable Bundle bundle) {
+        Log.e("HistoryAPI", "onConnected");
+    }
+    //In use, call this every 30 seconds in active mode, 60 in ambient on watch faces
+    private void displayStepDataForToday() {
+        DailyTotalResult stepsToday = Fitness.HistoryApi.readDailyTotal(mGoogleApiClient, DataType.TYPE_STEP_COUNT_DELTA).await(1, TimeUnit.MINUTES);
+        steps = showDataSet(stepsToday.getTotal());
+        DailyTotalResult caloriesBurned = Fitness.HistoryApi.readDailyTotal(mGoogleApiClient, DataType.TYPE_CALORIES_EXPENDED).await(1, TimeUnit.MINUTES);
+        cal = showDataSet(caloriesBurned.getTotal());
+        DailyTotalResult distanceToday = Fitness.HistoryApi.readDailyTotal(mGoogleApiClient, DataType.TYPE_DISTANCE_DELTA).await(1, TimeUnit.MINUTES);
+        Distance = showDataSet(distanceToday.getTotal());
+    }
+    private String showDataSet(DataSet dataSet) {
+        Log.e("Historysegev", "Data returned for Data type: " + dataSet.getDataType().getName());
+        DateFormat dateFormat = DateFormat.getDateInstance();
+        DateFormat timeFormat = DateFormat.getTimeInstance();
+        String counter = " ";
+        for (DataPoint dp : dataSet.getDataPoints()) {
+            Log.e("HistoryNiv", "Data point:");
+            Log.e("HistoryNiv", "\tType: " + dp.getDataType().getName());
+            Log.e("HistoryNiv", "\tStart: " + dateFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)) + " " + timeFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)));
+            Log.e("HistoryNiv", "\tEnd: " + dateFormat.format(dp.getEndTime(TimeUnit.MILLISECONDS)) + " " + timeFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)));
+            for (Field field : dp.getDataType().getFields()) {
+                Log.e("HistoryNiv", "\tField: " + field.getName() +
+                        " Value: " + dp.getValue(field));
+                counter = dp.getValue(field).toString();
 
+            }
+        }
+        return counter;
+    }
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_dashboard, menu);
         return true;
@@ -96,12 +182,41 @@ public class dashboard_activity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
     public void logOut(View view) {
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(dashboard_activity.this,MainActivity.class);
         startActivity(intent);
         finish();
+    }
+    private class ViewTodaysStepCountTask extends AsyncTask<Void, Void, Void> {
+        protected Void doInBackground(Void... params) {
+            displayStepDataForToday();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            stepsText= (TextView) findViewById(R.id.stepsTextView);
+            stepsText.setText(steps);
+            stepsText.setVisibility(View.VISIBLE);
+            caloriesText = (TextView) findViewById(R.id.caloriesTextView);
+            caloriesText.setText(cal);
+            caloriesText.setVisibility(View.VISIBLE);
+            distanceText = (TextView) findViewById(R.id.distanceTextView);
+            distanceText.setText(Distance);
+            distanceText.setVisibility(View.VISIBLE);
+
+
+        }
+    }
+    @Override
+    public void onConnectionSuspended(int i) {
+        Log.e("HistoryAPI", "onConnectionSuspended");
+    }
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.e("HistoryAPI", "onConnectionFailed");
     }
 
 }
