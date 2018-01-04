@@ -16,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
@@ -26,23 +25,18 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.DateTime;
-import com.google.api.client.util.ExponentialBackOff;
-import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventAttendee;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.EventReminder;
+import com.google.api.services.calendar.model.Events;
 
-
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Calendar;
-
 
 
 public class Running_activity extends AppCompatActivity implements View.OnClickListener {
@@ -58,14 +52,9 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
 
 
 
-
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.running_layout);
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
@@ -77,19 +66,10 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
         btnTimePicker=(EditText)findViewById(R.id.time_picker_id);
         btnDatePicker.setOnClickListener(this);
         btnTimePicker.setOnClickListener(this);
-        Button button=findViewById(R.id.sendmail);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    get_data_and_send();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-
+        HttpTransport httpTransport = AndroidHttp.newCompatibleTransport();
+        JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+      //  Calendar service = new Calendar.Builder(httpTransport, jsonFactory, credentials)
+        //        .setApplicationName("applicationName").build();
 
 
         Spinner spinnerRunning = (Spinner) findViewById(R.id.spinnerWorkoutType);
@@ -217,7 +197,7 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
     }
 
 
-    public void get_data_and_send() throws IOException {
+    public void get_data_and_send(){
 
         Event event = new Event()
                 .setSummary("Google I/O 2015")
@@ -255,7 +235,7 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
         event.setReminders(reminders);
 
         String calendarId = "primary";
-    //    event = .insert(calendarId, event).execute();
+        //event = service.events().insert(calendarId, event).execute();
         System.out.printf("Event created: %s\n", event.getHtmlLink());
 
 
