@@ -65,9 +65,9 @@ public class agenda_activity extends AppCompatActivity {
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
     Date date=new Date();
+    private com.google.api.services.calendar.Calendar mService = null;
 
     ListView listView ;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -320,9 +320,11 @@ public class agenda_activity extends AppCompatActivity {
      * An asynchronous task that handles the Google Calendar API call.
      * Placing the API calls in their own task ensures the UI stays responsive.
      */
-    private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
-        private com.google.api.services.calendar.Calendar mService = null;
+    public  class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
+
+
         private Exception mLastError = null;
+
 
         MakeRequestTask(GoogleAccountCredential credential) {
             HttpTransport transport = AndroidHttp.newCompatibleTransport();
