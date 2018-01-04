@@ -130,9 +130,11 @@ public class dashboard_activity extends AppCompatActivity implements GoogleApiCl
             }
         });
     }
+
     public void onConnected(@Nullable Bundle bundle) {
         Log.e("HistoryAPI", "onConnected");
     }
+
     //In use, call this every 30 seconds in active mode, 60 in ambient on watch faces
     private void displayStepDataForToday() {
         DailyTotalResult stepsToday = Fitness.HistoryApi.readDailyTotal(mGoogleApiClient, DataType.TYPE_STEP_COUNT_DELTA).await(1, TimeUnit.MINUTES);
@@ -142,6 +144,7 @@ public class dashboard_activity extends AppCompatActivity implements GoogleApiCl
         DailyTotalResult distanceToday = Fitness.HistoryApi.readDailyTotal(mGoogleApiClient, DataType.TYPE_DISTANCE_DELTA).await(1, TimeUnit.MINUTES);
         Distance = showDataSet(distanceToday.getTotal());
     }
+
     private String showDataSet(DataSet dataSet) {
         Log.e("Historysegev", "Data returned for Data type: " + dataSet.getDataType().getName());
         DateFormat dateFormat = DateFormat.getDateInstance();

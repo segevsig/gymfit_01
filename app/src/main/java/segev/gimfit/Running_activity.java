@@ -7,6 +7,7 @@ package segev.gimfit;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,18 +26,22 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.DateTime;
+import com.google.api.client.util.ExponentialBackOff;
+import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventAttendee;
 import com.google.api.services.calendar.model.EventDateTime;
-import com.google.api.services.calendar.model.EventReminder;
-import com.google.api.services.calendar.model.Events;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Calendar;
+
+import static segev.gimfit.Gimfit.service;
 
 
 public class Running_activity extends AppCompatActivity implements View.OnClickListener {
@@ -48,27 +53,29 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
     private EditText btnDatePicker;
     private EditText btnTimePicker;
     private int mYear, mMonth, mDay, mHour, mMinute;
-
-
+    private static final String[] SCOPES = {CalendarScopes.CALENDAR};
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.running_layout);
+
+        new doSomething().execute();
+
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
-        distanceSeekbar =(SeekBar) findViewById(R.id.distanseSeekBar);
+        distanceSeekbar = (SeekBar) findViewById(R.id.distanseSeekBar);
         durationSeekbar = (SeekBar) findViewById(R.id.durationSeekBar);
-        workoutType = (Spinner) findViewById(R.id.spinnerWorkoutType) ;
+        workoutType = (Spinner) findViewById(R.id.spinnerWorkoutType);
         description = (MultiAutoCompleteTextView) findViewById(R.id.description);
-        btnDatePicker=(EditText) findViewById(R.id.date_picker_id);
-        btnTimePicker=(EditText)findViewById(R.id.time_picker_id);
+        btnDatePicker = (EditText) findViewById(R.id.date_picker_id);
+        btnTimePicker = (EditText) findViewById(R.id.time_picker_id);
         btnDatePicker.setOnClickListener(this);
         btnTimePicker.setOnClickListener(this);
         HttpTransport httpTransport = AndroidHttp.newCompatibleTransport();
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-      //  Calendar service = new Calendar.Builder(httpTransport, jsonFactory, credentials)
+        //  Calendar service = new Calendar.Builder(httpTransport, jsonFactory, credentials)
         //        .setApplicationName("applicationName").build();
 
 
@@ -80,33 +87,34 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
 
         distanceSeekbar.setMax(50);
         distanceSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            int progress = 0 ;
+            int progress = 0;
+
             @Override
             public void onProgressChanged(SeekBar seekBar, int progressSeek, boolean fromUser) {
-                progress = progressSeek ;
-              //  runningDistanceKmId.setText(String.valueOf(progress));
+                progress = progressSeek;
+                //  runningDistanceKmId.setText(String.valueOf(progress));
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-              //  runningDistanceKmId.setText(String.valueOf(progress));
+                //  runningDistanceKmId.setText(String.valueOf(progress));
 
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-              //  runningDistanceKmId.setText(String.valueOf(progress));
+                //  runningDistanceKmId.setText(String.valueOf(progress));
 
 
             }
         });
         durationSeekbar.setMax(50);
         durationSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            int progress = 0 ;
+            int progress = 0;
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progressSeek, boolean fromUser) {
-                progress = progressSeek ;
+                progress = progressSeek;
 
             }
 
@@ -126,20 +134,20 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
 
                     case R.id.navigation_running:
-                        Toast.makeText(Running_activity.this,"You are on the requested page ",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Running_activity.this, "You are on the requested page ", Toast.LENGTH_SHORT).show();
                         break;
 
                     case R.id.navigation_biking:
-                        Toast.makeText(Running_activity.this,"Creating biking workout",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Running_activity.this, "Creating biking workout", Toast.LENGTH_SHORT).show();
                         Intent intent2 = new Intent(Running_activity.this, Biking_activity.class);
                         startActivity(intent2);
                         break;
 
                     case R.id.navigation_gym:
-                        Toast.makeText(Running_activity.this,"Creating gym workout",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Running_activity.this, "Creating gym workout", Toast.LENGTH_SHORT).show();
                         Intent intent3 = new Intent(Running_activity.this, Gym_activity.class);
                         startActivity(intent3);
                         break;
@@ -150,6 +158,7 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
             }
         });
     }
+
     public void onClick(View v) {
 
         if (v == btnDatePicker) {
@@ -197,50 +206,45 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
     }
 
 
-    public void get_data_and_send(){
+    public Event get_data_and_send() throws IOException {
 
-        Event event = new Event()
-                .setSummary("Google I/O 2015")
-                .setLocation("800 Howard St., San Francisco, CA 94103")
-                .setDescription("A chance to hear more about Google's developer products.");
 
-        DateTime startDateTime = new DateTime("2015-05-28T09:00:00-07:00");
-        EventDateTime start = new EventDateTime()
-                .setDateTime(startDateTime)
-                .setTimeZone("America/Los_Angeles");
-        event.setStart(start);
+        GoogleAccountCredential mCredential = GoogleAccountCredential.usingOAuth2(
+                getApplicationContext(), Arrays.asList(SCOPES))
+                .setBackOff(new ExponentialBackOff()).setSelectedAccountName("segevsig1@gmail.com");
 
-        DateTime endDateTime = new DateTime("2015-05-28T17:00:00-07:00");
-        EventDateTime end = new EventDateTime()
-                .setDateTime(endDateTime)
-                .setTimeZone("America/Los_Angeles");
-        event.setEnd(end);
+        HttpTransport transport = AndroidHttp.newCompatibleTransport();
+        JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
 
-        String[] recurrence = new String[] {"RRULE:FREQ=DAILY;COUNT=2"};
-        event.setRecurrence(Arrays.asList(recurrence));
+        service = new com.google.api.services.calendar.Calendar.Builder(transport, jsonFactory, mCredential)
+                .setApplicationName("applicationName").build();
+        Event newOne = new Event();
+        DateTime start = new DateTime("2018-01-06T17:00:00-07:00");
+        EventDateTime newstart = new EventDateTime().setDateTime(start);
+        newOne.setDescription("testing segev").setStart(newstart);
 
-        EventAttendee[] attendees = new EventAttendee[] {
-                new EventAttendee().setEmail("lpage@example.com"),
-                new EventAttendee().setEmail("sbrin@example.com"),
+        EventAttendee[] attendees = new EventAttendee[]{
+                new EventAttendee().setEmail("segevuni85@gmail.com"),
+                new EventAttendee().setEmail("segevsig1@gmail.com")
         };
-        event.setAttendees(Arrays.asList(attendees));
 
-        EventReminder[] reminderOverrides = new EventReminder[] {
-                new EventReminder().setMethod("email").setMinutes(24 * 60),
-                new EventReminder().setMethod("popup").setMinutes(10),
-        };
-        Event.Reminders reminders = new Event.Reminders()
-                .setUseDefault(false)
-                .setOverrides(Arrays.asList(reminderOverrides));
-        event.setReminders(reminders);
-
-        String calendarId = "primary";
-        //event = service.events().insert(calendarId, event).execute();
-        System.out.printf("Event created: %s\n", event.getHtmlLink());
+        newOne.setAttendees(Arrays.asList(attendees));
+        String CalendarId = "primary";
 
 
-
+return newOne;
     }
 
+    private class doSomething extends AsyncTask<Void, Void, Void> {
+        protected Void doInBackground(Void... params) {
+            try {
+                get_data_and_send();
 
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+    }
 }

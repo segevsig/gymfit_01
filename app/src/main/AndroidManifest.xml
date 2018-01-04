@@ -46,7 +46,6 @@
             android:name=".TrainerPageArea"
             android:label="@string/title_activity_trainer_page_area"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Create_workout"></activity>
         <activity android:name=".Gym_activity"></activity>
         <activity android:name=".Running_activity"></activity>
         <activity android:name=".Biking_activity"></activity>
