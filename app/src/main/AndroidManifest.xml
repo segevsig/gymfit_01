@@ -56,6 +56,8 @@
         <activity android:name=".athlete_area_playground" />
         <activity android:name=".session_athlete"/>
         <activity android:name=".add_session"></activity>
+        <activity android:name=".support_mail"></activity>
+        <activity android:name=".permission"></activity>
     </application>
 
 </manifest>

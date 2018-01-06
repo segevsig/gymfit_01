@@ -29,7 +29,6 @@ import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.fitness.result.DailyTotalResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
 
 import java.text.DateFormat;
 import java.util.concurrent.TimeUnit;
@@ -49,6 +48,7 @@ public class dashboard_activity extends AppCompatActivity implements GoogleApiCl
     private TextView stepsText;
     private TextView caloriesText;
     private TextView distanceText;
+    private TextView userName;
     private ImageButton createSingleWorkout;
     private ImageButton coacherGroupWorkout;
     private ImageButton coacherNotes;
@@ -57,7 +57,6 @@ public class dashboard_activity extends AppCompatActivity implements GoogleApiCl
     private ImageButton coacherSupport;
     private ImageButton coacherLogout;
     private GoogleApiClient mGoogleApiClient;
-    private DatabaseReference userName;
 
 
 
@@ -82,6 +81,15 @@ public class dashboard_activity extends AppCompatActivity implements GoogleApiCl
                 .build();
         mGoogleApiClient.connect();
 
+
+        coacherSupport = (ImageButton) this.findViewById(R.id.coacherSupport) ;
+        coacherSupport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(dashboard_activity.this, support_mail.class);
+                startActivity(intent);
+            }
+        });
         coacherLogout = (ImageButton) this.findViewById(R.id.coacherLogout);
         coacherLogout.setOnClickListener(new View.OnClickListener() {
                 @Override

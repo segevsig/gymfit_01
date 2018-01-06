@@ -61,7 +61,6 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.running_layout);
 
-        new doSomething().execute();
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
@@ -131,6 +130,13 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
+
+        try {
+            get_data_and_send();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -206,7 +212,7 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
     }
 
 
-    public Event get_data_and_send() throws IOException {
+    public void get_data_and_send() throws IOException {
 
 
         GoogleAccountCredential mCredential = GoogleAccountCredential.usingOAuth2(
@@ -231,15 +237,15 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
         newOne.setAttendees(Arrays.asList(attendees));
         String CalendarId = "primary";
 
+        newOne = service.events().insert(CalendarId, newOne).execute();
 
-return newOne;
+
     }
 
     private class doSomething extends AsyncTask<Void, Void, Void> {
         protected Void doInBackground(Void... params) {
             try {
                 get_data_and_send();
-
             } catch (IOException e) {
                 e.printStackTrace();
             }

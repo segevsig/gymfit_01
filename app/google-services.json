@@ -15,11 +15,19 @@
       },
       "oauth_client": [
         {
-          "client_id": "262366814130-lr13jb4a79psoo2daogmdb3jpdacmje2.apps.googleusercontent.com",
+          "client_id": "262366814130-ko0h1jq02csj34rjq7k5efubpp13b0oe.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "segev.gimfit",
             "certificate_hash": "c350c050a2cdaf4c74cac74f9ec0112856c59c20"
+          }
+        },
+        {
+          "client_id": "262366814130-lr13jb4a79psoo2daogmdb3jpdacmje2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "segev.gimfit",
+            "certificate_hash": "0e1cbd26145140f69f7a8588723d681a9475f230"
           }
         },
         {

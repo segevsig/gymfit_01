@@ -20,7 +20,6 @@ import static com.google.android.gms.common.Scopes.FITNESS_NUTRITION_READ_WRITE;
 /**
  * Created by LENOVO on 02/12/2017.
  */
-
 public class Gimfit extends Application implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleApiClient mGoogleApiClient;
@@ -61,6 +60,8 @@ public class Gimfit extends Application implements GoogleApiClient.ConnectionCal
 
 
     }
+
+
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
