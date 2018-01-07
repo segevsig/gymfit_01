@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#36afff">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -14,48 +16,92 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:background="@drawable/setting_image"></ImageView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Instructions:
+To allow the app access to the different categories on your mobile device, please click the buttons below:"
+                android:textColor="@color/white"
+                android:textSize="20dp"/>
+
             <Button
                 android:id="@+id/permission_btn_body_sensors"
                 android:layout_marginTop="16dp"
-                android:layout_width="match_parent"
-                android:text="Body sensors"
+                android:layout_width="250dp"
+                android:text="Body Sensors"
                 android:background="@color/colorPrimaryDark"
-                android:textColor="@android:color/white"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/white"
+                android:textStyle="bold"
+                android:textColor="#36afff"
+                android:textAllCaps="false"
+                android:textSize="20dp"
+                android:drawableLeft="@drawable/body_sensors_art"
                 android:layout_height="wrap_content" />
             <Button
                 android:id="@+id/permission_btn_storage"
                 android:layout_marginTop="16dp"
-                android:layout_width="match_parent"
+                android:layout_width="250dp"
                 android:text="Storage"
                 android:background="@color/colorPrimaryDark"
-                android:textColor="@android:color/white"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/white"
+                android:textStyle="bold"
+                android:textColor="#36afff"
+                android:textSize="20dp"
+                android:textAllCaps="false"
+                android:drawableLeft="@drawable/storage_art"
                 android:layout_height="wrap_content" />
             <Button
                 android:id="@+id/permission_btn_location"
                 android:layout_marginTop="16dp"
-                android:layout_width="match_parent"
+                android:layout_width="250dp"
                 android:text="Location"
                 android:background="@color/colorPrimaryDark"
-                android:textColor="@android:color/white"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/white"
+                android:textStyle="bold"
+                android:textColor="#36afff"
+                android:textSize="20dp"
+                android:textAllCaps="false"
+                android:drawableLeft="@drawable/location_art"
                 android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/permission_btn_accounts"
                 android:layout_marginTop="16dp"
-                android:layout_width="match_parent"
+                android:layout_width="250dp"
                 android:text="Contacts"
                 android:background="@color/colorPrimaryDark"
-                android:textColor="@android:color/white"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textColor="#36afff"
+                android:textSize="20dp"
+                android:textAllCaps="false"
+                android:backgroundTint="@color/white"
+                android:drawableLeft="@drawable/contact_art"
                 android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/permission_btn_calender"
                 android:layout_marginTop="16dp"
-                android:layout_width="match_parent"
+                android:layout_width="250dp"
                 android:text="Calender"
                 android:background="@color/colorPrimaryDark"
-                android:textColor="@android:color/white"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/white"
+                android:textStyle="bold"
+                android:textColor="#36afff"
+                android:textSize="20dp"
+                android:textAllCaps="false"
+                android:drawableLeft="@drawable/calendar_art"
                 android:layout_height="wrap_content" />
         </LinearLayout>
+
     </ScrollView>
 </RelativeLayout>

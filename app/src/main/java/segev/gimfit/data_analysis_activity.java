@@ -12,15 +12,12 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 
 
 public class data_analysis_activity extends AppCompatActivity {
 
-    Button btnPer;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,17 +28,6 @@ public class data_analysis_activity extends AppCompatActivity {
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(2);
         menuItem.setChecked(true);
-
-        btnPer=(Button)findViewById(R.id.permission);
-        btnPer.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Intent i = new Intent(getApplicationContext(),permission.class);
-                startActivity(i);
-            }
-        });
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

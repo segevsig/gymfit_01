@@ -54,6 +54,7 @@ public class dashboard_activity extends AppCompatActivity implements GoogleApiCl
     private TextView caloriesText;
     private TextView distanceText;
     private TextView userName;
+    private ImageButton setting;
     private ImageButton createSingleWorkout;
     private ImageButton coacherGroupWorkout;
     private ImageButton coacherNotes;
@@ -92,6 +93,15 @@ public class dashboard_activity extends AppCompatActivity implements GoogleApiCl
             public void onClick(View v) {
                 Intent intent = new Intent(dashboard_activity.this, support_mail.class);
                 startActivity(intent);
+            }
+        });
+        setting = (ImageButton) this.findViewById(R.id.setting);
+        setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(dashboard_activity.this, permission.class);
+                startActivity(intent);
+                finish();
             }
         });
         coacherLogout = (ImageButton) this.findViewById(R.id.coacherLogout);
