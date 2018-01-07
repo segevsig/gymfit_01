@@ -112,7 +112,11 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:hint="Time" />
-
+<Button
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/sendMail"
+    />
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/navigation"

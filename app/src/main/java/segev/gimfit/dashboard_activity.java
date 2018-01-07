@@ -29,6 +29,11 @@ import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.fitness.result.DailyTotalResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
 import java.util.concurrent.TimeUnit;
@@ -80,8 +85,7 @@ public class dashboard_activity extends AppCompatActivity implements GoogleApiCl
                 .enableAutoManage(this, 0, this)
                 .build();
         mGoogleApiClient.connect();
-
-
+        userName = (TextView)findViewById(R.id.userName);
         coacherSupport = (ImageButton) this.findViewById(R.id.coacherSupport) ;
         coacherSupport.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,6 +111,23 @@ public class dashboard_activity extends AppCompatActivity implements GoogleApiCl
             public void onClick(View v) {
                 Intent intent0 = new Intent(dashboard_activity.this, Running_activity.class);
                 startActivity(intent0);
+            }
+        });
+       new ViewTodaysStepCountTask().execute();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Coach")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("fullName");
+        ref.addValueEventListener(new ValueEventListener() {
+            String full_name;
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+               full_name = dataSnapshot.getValue().toString();
+               userName.setText(full_name);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
 
@@ -199,7 +220,7 @@ public class dashboard_activity extends AppCompatActivity implements GoogleApiCl
         startActivity(intent);
         finish();
     }
-    private class ViewTodaysStepCountTask extends AsyncTask<Void, Void, Void> {
+    public class  ViewTodaysStepCountTask extends AsyncTask<Void, Void, Void> {
         protected Void doInBackground(Void... params) {
             displayStepDataForToday();
             return null;
@@ -208,15 +229,16 @@ public class dashboard_activity extends AppCompatActivity implements GoogleApiCl
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            stepsText= (TextView) findViewById(R.id.stepsTextView);
+            stepsText= (TextView) findViewById(R.id.stepsText);
             stepsText.setText(steps);
             stepsText.setVisibility(View.VISIBLE);
-            caloriesText = (TextView) findViewById(R.id.caloriesTextView);
+            caloriesText = (TextView) findViewById(R.id.caloriesText);
             caloriesText.setText(cal);
             caloriesText.setVisibility(View.VISIBLE);
-            distanceText = (TextView) findViewById(R.id.distanceTextView);
+            distanceText = (TextView) findViewById(R.id.distanceText);
             distanceText.setText(Distance);
             distanceText.setVisibility(View.VISIBLE);
+
 
 
         }
