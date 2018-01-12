@@ -1,5 +1,6 @@
 package segev.gimfit;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -25,6 +26,8 @@ public class have_accuont extends AppCompatActivity {
     String email  ;
     String password;
     private DatabaseReference mdatabase;
+    ProgressDialog mProgress;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,24 +39,25 @@ public class have_accuont extends AppCompatActivity {
         mAuth  = FirebaseAuth.getInstance();
         mdatabase=FirebaseDatabase.getInstance().getReference();
         EditText editText;
+        mProgress = new ProgressDialog(this);
+        mProgress.setProgress(100);
+        mProgress.setTitle("User verifying");
+        mProgress.setMessage("Please wait patiently");
+
         Username = (EditText) findViewById(R.id.user_name_login_ID);
         Password = (EditText) findViewById(R.id.password_login_ID);
+
         findViewById(R.id.log).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 email  = Username.getText().toString();
+                mProgress.show();
+                email  = Username.getText().toString();
                 password  = Password.getText().toString();
                 checklogin(view);
             }
         });
 
-        findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(have_accuont.this, google_calendar.class);
-                startActivity(intent);
-            }
-        });
+
 
     }
 
@@ -72,11 +76,14 @@ public class have_accuont extends AppCompatActivity {
                                Intent intent=new Intent(have_accuont.this,dashboard_activity.class);
                                Toast.makeText(have_accuont.this,"User is Loged In pass to private page",Toast.LENGTH_LONG).show();
                                startActivity(intent);
+                               mProgress.hide();
                             }else if (true){
                                 Intent intent = new Intent(have_accuont.this,athlete_area_playground.class);
                                 startActivity(intent);
                                 Toast.makeText(have_accuont.this,"User is Loged In pass to private page",Toast.LENGTH_LONG).show();
-                            }
+                               mProgress.hide();
+
+                           }
                             else  Toast.makeText(have_accuont.this,"Connection Error ",Toast.LENGTH_LONG).show();
 
                         }

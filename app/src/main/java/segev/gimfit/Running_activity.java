@@ -131,11 +131,7 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
 
-        try {
-            get_data_and_send();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

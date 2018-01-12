@@ -377,6 +377,7 @@ public class agenda_activity extends AppCompatActivity {
                     // the start date.
                     start = event.getStart().getDate();
                 }
+
                 DateTime dateOnCalender=new DateTime(date);
                 String dateonCalender=dateOnCalender.toString().substring(0,10);
                 String dateEvent=start.toStringRfc3339().substring(0,10);

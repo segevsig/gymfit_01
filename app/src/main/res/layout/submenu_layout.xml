@@ -27,7 +27,6 @@ android:orientation="vertical">
     <android.support.v7.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/cardview_light_background"
         app:cardCornerRadius="@dimen/cardCornerRadius"
         app:cardElevation="@dimen/cardElevation"
         app:cardUseCompatPadding="true" >
@@ -46,8 +45,8 @@ android:orientation="vertical">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabEvent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:src="@drawable/addevent"
         app:backgroundTint="@android:color/holo_green_light"
         app:fabSize="mini" />
@@ -68,7 +67,6 @@ android:orientation="vertical">
     <android.support.v7.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/cardview_light_background"
         app:cardCornerRadius="@dimen/cardCornerRadius"
         app:cardElevation="@dimen/cardElevation"
         app:cardUseCompatPadding="true" >
