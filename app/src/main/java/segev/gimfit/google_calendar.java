@@ -46,6 +46,8 @@ import java.util.List;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
+import static segev.gimfit.Gimfit.service;
+
 public class google_calendar extends Activity
         implements EasyPermissions.PermissionCallbacks {
     GoogleAccountCredential mCredential;
@@ -352,27 +354,38 @@ public class google_calendar extends Activity
          * @throws IOException
          */
         private List<String> getDataFromApi() throws IOException {
+            Event event = new Event()
+                    .setSummary("segev test")
+
+                    .setDescription("do work");
+            DateTime start = new DateTime("2018-01-28T09:00:00-07:00");
+            EventDateTime newstart = new EventDateTime().setDateTime(start);
+            event.setStart(newstart);
+            EventAttendee[] attendees = new EventAttendee[] {
+                    new EventAttendee().setEmail("segevuni85@gmail.com"),
+                    new EventAttendee().setEmail("segevsig1@gmail.com")
+            };
+            event.setAttendees(Arrays.asList(attendees));
+            DateTime endDateTime = new DateTime("2018-01-28T17:00:00-07:00");
+            EventDateTime end = new EventDateTime()
+                    .setDateTime(endDateTime);
+            event.setEnd(end);
+
+
+
+            String calendarId ="primary";
+            //event.send
+            if(mService!=null)
+                mService.events().insert(calendarId, event).setSendNotifications(true).execute();
+
+
             // List the next 10 events from the primary calendar.
             DateTime now = new DateTime(System.currentTimeMillis());
             List<String> eventStrings = new ArrayList<String>();
-            Events events = mService.events().list("primary")
-                    .setMaxResults(10)
-                    .setTimeMin(now)
-                    .setOrderBy("startTime")
-                    .setSingleEvents(true)
-                    .execute();
-            List<Event> items = events.getItems();
 
-            for (Event event : items) {
-                DateTime start = event.getStart().getDateTime();
-                if (start == null) {
-                    // All-day events don't have start times, so just use
-                    // the start date.
-                    start = event.getStart().getDate();
-                }
-                eventStrings.add(
-                        String.format("%s (%s)", event.getSummary(), start));
-            }
+
+
+
             return eventStrings;
         }
 

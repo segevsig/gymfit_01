@@ -366,8 +366,6 @@ public class agenda_activity extends AppCompatActivity {
             List<Event> items = events.getItems();
 
 
-
-
             for (Event event : items) {
                 DateTime start =event.getStart().getDateTime();
 
