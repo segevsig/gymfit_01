@@ -3,13 +3,19 @@ package segev.gimfit;
 import java.io.Serializable;
 
 public class User_app implements Serializable {
-    public String Gender;
+    private String Gender;
     private String FullName;
     private String UserName;
     private String Password;
     private String Email;
     private double Age;
     private double Weight;
+
+
+
+
+
+
     public static class Birth implements Serializable{
         int day;
         int month;
@@ -49,15 +55,8 @@ public class User_app implements Serializable {
     private String NameOfCoach;
     private String Goals;
     private double Height;
-    private boolean Coach=false;
 
-    public boolean isCoach() {
-        return Coach;
-    }
 
-    public void setCoach(boolean coach) {
-        Coach = coach;
-    }
 
     public String getGender() {
         return Gender;

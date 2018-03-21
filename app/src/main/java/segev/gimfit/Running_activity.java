@@ -423,7 +423,7 @@ findViewById(R.id.sendMail).setOnClickListener(new View.OnClickListener() {
                 mLastError = e;
 
             }
-            Toast.makeText(getApplication().getApplicationContext(), "Event send to the user",
+            Toast.makeText(Running_activity.this, "Event send to the user",
                     Toast.LENGTH_LONG).show();
 
 

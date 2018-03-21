@@ -56,14 +56,19 @@ User_app Userapp;
         button1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 num=InValid();
-                Userapp.setCoach(true);
                 if (num==4){
-                    mAuth.createUserWithEmailAndPassword(Userapp.getEmail(), Userapp.getPassword()).addOnCompleteListener(login_step2.this, new OnCompleteListener<AuthResult>() {
+                    final User_app_coach userAppCoach=new User_app_coach();
+                    userAppCoach.setGender(Userapp.getGender());
+                    userAppCoach.setFullName(Userapp.getFullName());
+                    userAppCoach.setEmail(Userapp.getEmail());
+                    userAppCoach.setUserName(Userapp.getUserName());
+                    userAppCoach.setPassword(Userapp.getPassword());
+                    mAuth.createUserWithEmailAndPassword(userAppCoach.getEmail(), userAppCoach.getPassword()).addOnCompleteListener(login_step2.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 mRoot = new Firebase("https://gimfit-654d0.firebaseio.com/Coach");
-                                mRoot.child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).setValue(Userapp);
+                                mRoot.child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).setValue(userAppCoach);
                                 Intent intent = new Intent(login_step2.this, have_accuont.class);
                                 startActivity(intent);
                                 finish();
@@ -129,14 +134,5 @@ User_app Userapp;
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
- /*   public static boolean isValidPassword(final String password) {
 
-        Pattern pattern;
-        Matcher matcher;
-        final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{4,}$";
-        pattern = Pattern.compile(PASSWORD_PATTERN);
-        matcher = pattern.matcher(password);
-        return matcher.matches();
-
-    }*/
 }
