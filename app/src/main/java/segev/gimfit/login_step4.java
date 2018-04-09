@@ -28,6 +28,7 @@ public class login_step4 extends AppCompatActivity {
     User_app Userapp;
     private Firebase mRef;
     int num = 0;
+    boolean ok=false;
 
 
     @Override
@@ -35,6 +36,7 @@ public class login_step4 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_step4);
         mAuth = FirebaseAuth.getInstance();
+        Userapp = (User_app) getIntent().getSerializableExtra("myobj");
         Spinner spinner1 = (Spinner) findViewById(R.id.spinnerGoal);
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
                 R.array.goals, android.R.layout.simple_spinner_item);
@@ -47,7 +49,7 @@ public class login_step4 extends AppCompatActivity {
     public boolean takefield() {
 
         Spinner mySpinner = (Spinner) findViewById(R.id.spinnerGoal);
-        String goals = mySpinner.getSelectedItem().toString();
+        final String goals = mySpinner.getSelectedItem().toString();
         EditText Choches=(EditText)findViewById(R.id.codeofchoach);
 
         final int CoachCode=Integer.valueOf(Choches.getText().toString());
@@ -66,14 +68,15 @@ public class login_step4 extends AppCompatActivity {
             errorText1.setError("You did not select");
         } else {
             mRef=new Firebase("https://gimfit-654d0.firebaseio.com/Coach");
-            mRef.addValueEventListener(new ValueEventListener() {
+            mRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     int code=0;
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                         code=snapshot.child("codeOfChoces").getValue(int.class);
                     if (code==CoachCode){
-                        login_step4.this.num++;
+                        num++;
+                        plusplus(num,goals,CoachCode);
                         Toast.makeText(login_step4.this,"you select the coach"+snapshot.child("fullName").getValue(String.class) , Toast.LENGTH_LONG).show();
                     }
 
@@ -91,19 +94,23 @@ public class login_step4 extends AppCompatActivity {
 
         }
 
-        Userapp = (User_app) getIntent().getSerializableExtra("myobj");
+        
+if (ok==true){
+    return true;}
+    else return false;
+        }
+
+
+
+
+    
+    private void plusplus(int n,String goals,int CoachCode) {
+        Toast.makeText(this, "plus plus and doing stuff  ", Toast.LENGTH_SHORT).show();
+
         if (num == 2) {
             Userapp.setGoals(goals);
             String nameOfChoches=Integer.toString(CoachCode);
             Userapp.setNameOfCoach(nameOfChoches);
-
-            return true;
-        }
-        else{return false;}
-    }
-
-    public void signUp(View view) {
-        if (takefield()) {
             mAuth.createUserWithEmailAndPassword(Userapp.getEmail(), Userapp.getPassword()).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -115,10 +122,17 @@ public class login_step4 extends AppCompatActivity {
                         finish();
 
                     } else {
-                        Toast.makeText(login_step4.this, "User not connected", Toast.LENGTH_LONG).show();
+                        Toast.makeText(login_step4.this, task.getException().toString(), Toast.LENGTH_LONG).show();
                     }
                 }
             });
-        }
+
+    }
+    }
+
+    public void signUp(View view) {
+        takefield();
+
+
     }
 }

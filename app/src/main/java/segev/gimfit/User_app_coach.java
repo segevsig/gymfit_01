@@ -1,6 +1,16 @@
 package segev.gimfit;
 
+import com.firebase.client.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class User_app_coach implements Serializable {
     private String Gender;
@@ -17,20 +27,42 @@ public class User_app_coach implements Serializable {
     private String UserName;
     private String Password;
     private String Email;
-    public static int id=0;
     private int CodeOfChoces=0;
 
-    public User_app_coach() {
-        id++;
-        CodeOfChoces=id;
-    }
-    public  int getCodeOfChoces() {
+
+
+    public int getCodeOfChoces() {
         return CodeOfChoces;
     }
 
-    public  void setCodeOfChoces(int codeOfChoces) {
+    public void setCodeOfChoces(int codeOfChoces) {
         CodeOfChoces = codeOfChoces;
     }
+
+
+    public User_app_coach() {
+        final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Coach");
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChild("NumberOfCoach")){
+                    String number =String.valueOf(1+ Integer.valueOf((String)dataSnapshot.child("NumberOfCoach").getValue()));
+                    ref.child("NumberOfCoach").setValue(number);
+                    CodeOfChoces = Integer.valueOf( number);
+
+                }else {
+                    ref.child("NumberOfCoach").setValue("1");
+                    CodeOfChoces = 1;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+      }
+
 
 
 
