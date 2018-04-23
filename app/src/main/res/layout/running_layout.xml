@@ -34,7 +34,7 @@
             android:id="@+id/distanseSeekBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="15dp"/>
+            android:paddingTop="15dp" />
 
         <TextView
             android:layout_width="match_parent"
