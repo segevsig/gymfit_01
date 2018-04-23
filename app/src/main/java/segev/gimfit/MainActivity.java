@@ -122,11 +122,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-            //if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            //  Intent intent = new Intent(MainActivity.this, TrainerPageArea.class);
-            //startActivity(intent);
-            //finish();
-            //}
+
         }
     }
 
@@ -139,21 +135,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-  /*  private void accessGoogleFit() {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date());
-        long endTime = cal.getTimeInMillis();
-        cal.add(Calendar.YEAR, -1);
-        long startTime = cal.getTimeInMillis();
 
-        DataReadRequest readRequest = new DataReadRequest.Builder()
-                .aggregate(DataType.TYPE_STEP_COUNT_DELTA, DataType.AGGREGATE_STEP_COUNT_DELTA)
-                .setTimeRange(startTime, endTime, TimeUnit.MILLISECONDS)
-                .build();
-
-
-
-
-    }*/
 }
 

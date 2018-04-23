@@ -112,11 +112,13 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:hint="Time" />
-<Button
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/sendMail"
-    />
+
+        <Button
+            android:id="@+id/sendMail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Save and upload the event"
+            />
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/navigation"
