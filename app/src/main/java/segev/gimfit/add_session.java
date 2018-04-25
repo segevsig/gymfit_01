@@ -44,7 +44,12 @@ public class add_session extends AppCompatActivity implements View.OnClickListen
         btnDatePicker=(EditText) findViewById(R.id.date_picker_id);
         btnTimePicker=(EditText)findViewById(R.id.time_picker_id);
         saveButton = (Button) findViewById(R.id.saveButton);
-        saveButton.setOnClickListener(this);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveandsend();
+            }
+        });
 
     }
 
@@ -96,6 +101,7 @@ public class add_session extends AppCompatActivity implements View.OnClickListen
     }
 
     public void saveandsend(){
+
         session_data sessionData = new session_data();
         int num=0;
         EditText dateText=(EditText)findViewById(R.id.date_picker_id);
@@ -174,10 +180,10 @@ public class add_session extends AppCompatActivity implements View.OnClickListen
             sessionData.setDate(distanse);}
 
             if (num==9){
-                mRoot = new Firebase("https://gimfit-654d0.firebaseio.com/trainee/" + FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
-                mRoot.child("event").setValue(sessionData);
 
+                mRoot = new Firebase("https://gimfit-654d0.firebaseio.com/trainee/niv"+ FirebaseAuth.getInstance().getCurrentUser().getUid());
 
+                mRoot.child("Extra").setValue(sessionData);
             }
 
     }

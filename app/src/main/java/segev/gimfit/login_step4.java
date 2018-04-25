@@ -1,10 +1,9 @@
 package segev.gimfit;
 
 import android.content.Intent;
-import android.provider.Settings;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -115,7 +114,7 @@ if (ok==true){
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        mRoot = new Firebase("https://gimfit-654d0.firebaseio.com/trainee/" + Userapp.getNameOfCoach());
+                        mRoot = new Firebase("https://gimfit-654d0.firebaseio.com/trainee/" +"x"+ Userapp.getNameOfCoach());
                         mRoot.child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).setValue(Userapp);
                         Intent intent = new Intent(login_step4.this, have_accuont.class);
                         startActivity(intent);

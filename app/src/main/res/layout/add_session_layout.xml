@@ -136,6 +136,6 @@
         android:layout_below="@id/calories_text_id"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
-        android:onClick="saveandsend"/>
+        />
 
 </RelativeLayout>
