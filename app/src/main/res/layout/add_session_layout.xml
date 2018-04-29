@@ -131,11 +131,11 @@
         android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SAVE"
+        android:text="Save to the server"
         android:textSize="20dp"
         android:layout_below="@id/calories_text_id"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
-        android:onClick="saveandsend"/>
+        />
 
 </RelativeLayout>

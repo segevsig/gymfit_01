@@ -2,13 +2,19 @@ package segev.gimfit;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,6 +40,7 @@ public class add_session extends AppCompatActivity implements View.OnClickListen
     private Button saveButton;
     private int mYear, mMonth, mDay, mHour, mMinute;
     private Firebase mRoot;
+    private Spinner spinner;
 
 
     @Override
@@ -44,8 +51,21 @@ public class add_session extends AppCompatActivity implements View.OnClickListen
         btnDatePicker=(EditText) findViewById(R.id.date_picker_id);
         btnTimePicker=(EditText)findViewById(R.id.time_picker_id);
         saveButton = (Button) findViewById(R.id.saveButton);
-        saveButton.setOnClickListener(this);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                saveandsend();
 
+                }
+            });
+
+        spinner = findViewById(R.id.session_type_id);
+
+        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
+                R.array.typeoftrainning, android.R.layout.simple_spinner_item);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter1);
+        btnDatePicker.setOnClickListener(this);
+        btnTimePicker.setOnClickListener(this);
     }
 
     @Override
@@ -108,6 +128,8 @@ public class add_session extends AppCompatActivity implements View.OnClickListen
         EditText caloriesText=(EditText)findViewById(R.id.calories_text_id);
         EditText distanseText=(EditText)findViewById(R.id.distance_text_id);
 
+
+
         datePicker=dateText.getText().toString();
         timePicker=timeText.getText().toString();
         description=descriptionText.getText().toString();
@@ -117,6 +139,8 @@ public class add_session extends AppCompatActivity implements View.OnClickListen
         steps=stepsText.getText().toString();
         calories=caloriesText.getText().toString();
         distanse=distanseText.getText().toString();
+        final TextView errorText = (TextView) spinner.getSelectedView();
+        final String typeOfTrainnig = spinner.getSelectedItem().toString();
 
         if(datePicker.matches("")){
             dateText.setBackgroundResource(R.drawable.border2);
@@ -125,60 +149,73 @@ public class add_session extends AppCompatActivity implements View.OnClickListen
             num++;
             sessionData.setDate(datePicker);}
         if(timePicker.matches("")){
-            dateText.setBackgroundResource(R.drawable.border2);
-            dateText.setError("OOPS... this field should not be empty");}
-        else{ dateText.setBackgroundResource(R.drawable.border);
+            timeText.setBackgroundResource(R.drawable.border2);
+            timeText.setError("OOPS... this field should not be empty");}
+        else{ timeText.setBackgroundResource(R.drawable.border);
             num++;
-            sessionData.setDate(timePicker);}
+            sessionData.setTime(timePicker);}
         if(description.matches("")){
-            dateText.setBackgroundResource(R.drawable.border2);
-            dateText.setError("OOPS... this field should not be empty");}
-        else{ dateText.setBackgroundResource(R.drawable.border);
+            descriptionText.setBackgroundResource(R.drawable.border2);
+            descriptionText.setError("OOPS... this field should not be empty");}
+        else{ descriptionText.setBackgroundResource(R.drawable.border);
             num++;
-            sessionData.setDate(description);}
+            sessionData.setDescription(description);}
         if(hours.matches("")){
-            dateText.setBackgroundResource(R.drawable.border2);
-            dateText.setError("OOPS... this field should not be empty");}
-        else{ dateText.setBackgroundResource(R.drawable.border);
+            hoursText.setBackgroundResource(R.drawable.border2);
+            hoursText.setError("OOPS... this field should not be empty");}
+        else{ hoursText.setBackgroundResource(R.drawable.border);
             num++;
-            sessionData.setDate(hours);}
+            sessionData.setHour(hours);}
         if(minutes.matches("")){
-            dateText.setBackgroundResource(R.drawable.border2);
-            dateText.setError("OOPS... this field should not be empty");}
-        else{ dateText.setBackgroundResource(R.drawable.border);
+            minutesText.setBackgroundResource(R.drawable.border2);
+            minutesText.setError("OOPS... this field should not be empty");}
+        else{ minutesText.setBackgroundResource(R.drawable.border);
             num++;
-            sessionData.setDate(minutes);}
+            sessionData.setMinute(minutes);}
         if(seconds.matches("")){
-            dateText.setBackgroundResource(R.drawable.border2);
-            dateText.setError("OOPS... this field should not be empty");}
-        else{ dateText.setBackgroundResource(R.drawable.border);
+            secondsText.setBackgroundResource(R.drawable.border2);
+            secondsText.setError("OOPS... this field should not be empty");}
+        else{ secondsText.setBackgroundResource(R.drawable.border);
             num++;
-            sessionData.setDate(seconds);}
+            sessionData.setSecond(seconds);}
         if(steps.matches("")){
-            dateText.setBackgroundResource(R.drawable.border2);
-            dateText.setError("OOPS... this field should not be empty");}
-        else{ dateText.setBackgroundResource(R.drawable.border);
+            stepsText.setBackgroundResource(R.drawable.border2);
+            stepsText.setError("OOPS... this field should not be empty");}
+        else{ stepsText.setBackgroundResource(R.drawable.border);
             num++;
-            sessionData.setDate(steps);}
+            sessionData.setStep(steps);}
         if(calories.matches("")){
-            dateText.setBackgroundResource(R.drawable.border2);
-            dateText.setError("OOPS... this field should not be empty");}
-        else{ dateText.setBackgroundResource(R.drawable.border);
+            caloriesText.setBackgroundResource(R.drawable.border2);
+            caloriesText.setError("OOPS... this field should not be empty");}
+        else{ caloriesText.setBackgroundResource(R.drawable.border);
             num++;
-            sessionData.setDate(calories);}
+            sessionData.setCalories(calories);}
         if(distanse.matches("")){
-            dateText.setBackgroundResource(R.drawable.border2);
-            dateText.setError("OOPS... this field should not be empty");}
-        else{ dateText.setBackgroundResource(R.drawable.border);
+            distanseText.setBackgroundResource(R.drawable.border2);
+            distanseText.setError("OOPS... this field should not be empty");}
+        else{ distanseText.setBackgroundResource(R.drawable.border);
             num++;
-            sessionData.setDate(distanse);}
+            sessionData.setDistance(distanse);}
 
-            if (num==9){
+        if (typeOfTrainnig.equals("Select the type of trainning")) {
+            spinner.setBackgroundResource(R.drawable.border2);
+            errorText.setError("You did not select");
+        } else {
+            spinner.setBackgroundResource(R.drawable.border);
+            sessionData.setTypeoftrining(typeOfTrainnig);
+            num = num + 1;
+        }
+
+        if (num==10){
+
                 mRoot = new Firebase("https://gimfit-654d0.firebaseio.com/trainee/" + FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
-                mRoot.child("event").setValue(sessionData);
-
-
-            }
+                mRoot.child("traning data").setValue(sessionData);
+            Intent intent = new Intent(add_session.this, athlete_area_playground.class);
+            startActivity(intent);
+        }
+        else {
+            Toast.makeText(add_session.this, "cant save the data", Toast.LENGTH_LONG).show();
+        }
 
     }
 

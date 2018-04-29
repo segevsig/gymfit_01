@@ -95,6 +95,14 @@ public class dashboard_activity extends AppCompatActivity implements GoogleApiCl
                 startActivity(intent);
             }
         });
+        coacherAthletesList=(ImageButton) this.findViewById(R.id.coacherAthletesList);
+        coacherAthletesList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(dashboard_activity.this,Athletes_List.class);
+                startActivity(intent);
+            }
+        });
         setting = (ImageButton) this.findViewById(R.id.setting);
         setting.setOnClickListener(new View.OnClickListener() {
             @Override

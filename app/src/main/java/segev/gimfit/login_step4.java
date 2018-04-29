@@ -77,7 +77,7 @@ public class login_step4 extends AppCompatActivity {
                     if (code==CoachCode){
                         num++;
                         plusplus(num,goals,CoachCode);
-                        Toast.makeText(login_step4.this,"you select the coach"+snapshot.child("fullName").getValue(String.class) , Toast.LENGTH_LONG).show();
+                        Toast.makeText(login_step4.this,"you select the coach : "+snapshot.child("fullName").getValue(String.class) , Toast.LENGTH_LONG).show();
                     }
 
                     }
@@ -105,8 +105,6 @@ if (ok==true){
 
     
     private void plusplus(int n,String goals,int CoachCode) {
-        Toast.makeText(this, "plus plus and doing stuff  ", Toast.LENGTH_SHORT).show();
-
         if (num == 2) {
             Userapp.setGoals(goals);
             String nameOfChoches=Integer.toString(CoachCode);
@@ -115,7 +113,7 @@ if (ok==true){
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        mRoot = new Firebase("https://gimfit-654d0.firebaseio.com/trainee/" + Userapp.getNameOfCoach());
+                        mRoot = new Firebase("https://gimfit-654d0.firebaseio.com/trainee/" );
                         mRoot.child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).setValue(Userapp);
                         Intent intent = new Intent(login_step4.this, have_accuont.class);
                         startActivity(intent);

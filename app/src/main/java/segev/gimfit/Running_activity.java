@@ -31,9 +31,12 @@ import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -52,6 +55,12 @@ import com.google.api.services.calendar.model.EventAttendee;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.EventReminder;
 import com.google.api.services.calendar.model.Events;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -76,17 +85,24 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
     private SeekBar distanceSeekbar;
     private SeekBar durationSeekbar;
     private Spinner workoutType;
+    private Spinner choosetraining;
+    private Firebase mRef;
+
     private MultiAutoCompleteTextView description;
     private EditText btnDatePicker;
     private EditText btnTimePicker;
     private int mYear, mMonth, mDay, mHour, mMinute;
+    private  String codeOfChoces;
     private Button btnsend;
     HttpTransport transport = AndroidHttp.newCompatibleTransport();
     JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
     ProgressDialog progressDialog =null;
     com.google.api.services.calendar.Calendar mService=null;
     GoogleAccountCredential mCredential=null;
+    List<String> traninngOfChoche = new ArrayList<String>();
 
+    public Running_activity() {
+    }
 
 
     @Override
@@ -94,6 +110,25 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.running_layout);
 
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Coach")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("codeOfChoces");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                synchronized (this){
+                setCode( dataSnapshot.getValue().toString());
+                if (codeOfChoces!=null){
+                    addtraining();
+                    arrayadapter();
+                    }}
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
 
@@ -105,36 +140,20 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
         distanceSeekbar = (SeekBar) findViewById(R.id.distanseSeekBar);
         durationSeekbar = (SeekBar) findViewById(R.id.durationSeekBar);
         workoutType = (Spinner) findViewById(R.id.spinnerWorkoutType);
+        choosetraining=(Spinner) findViewById(R.id.training_spinner);
         description = (MultiAutoCompleteTextView) findViewById(R.id.description);
         btnDatePicker = (EditText) findViewById(R.id.date_picker_id);
         btnTimePicker = (EditText) findViewById(R.id.time_picker_id);
         btnDatePicker.setOnClickListener(this);
         btnTimePicker.setOnClickListener(this);
+        final TextView runningDistanceKmId=(TextView) findViewById(R.id.distance_progress);
+        final TextView runningDurationId=(TextView) findViewById(R.id.Durationprogress);
 
-findViewById(R.id.sendMail).setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-        String WorkoutType=workoutType.getSelectedItem().toString();
-        int Distance= distanceSeekbar.getProgress();
-        int Duration= durationSeekbar.getProgress();
-        String Discription=description.getText().toString();
-
-
-
-        mCredential = GoogleAccountCredential.usingOAuth2(
-               view.getContext(), Arrays.asList(SCOPES))
-              .setBackOff(new ExponentialBackOff());
-       getResultsFromApi();
-
-
-    }
-});
-
-        Spinner spinnerRunning = (Spinner) findViewById(R.id.spinnerWorkoutType);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.TypeOfTraningRunning, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerRunning.setAdapter(adapter);
+        workoutType.setAdapter(adapter);
+
 
         distanceSeekbar.setMax(50);
         distanceSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -143,18 +162,18 @@ findViewById(R.id.sendMail).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progressSeek, boolean fromUser) {
                 progressDistance = progressSeek;
-                //  runningDistanceKmId.setText(String.valueOf(progress));
+                 runningDistanceKmId.setText(String.valueOf(progressDistance));
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                //  runningDistanceKmId.setText(String.valueOf(progress));
+                  runningDistanceKmId.setText(String.valueOf(progressDistance));
 
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                //  runningDistanceKmId.setText(String.valueOf(progress));
+                  runningDistanceKmId.setText(String.valueOf(progressDistance));
 
 
             }
@@ -166,16 +185,20 @@ findViewById(R.id.sendMail).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progressSeek, boolean fromUser) {
                 progressDuration = progressSeek;
+                runningDurationId.setText(String.valueOf(progressDuration));
 
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
+                runningDurationId.setText(String.valueOf(progressDuration));
 
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                runningDurationId.setText(String.valueOf(progressDuration));
+
 
             }
         });
@@ -211,7 +234,27 @@ findViewById(R.id.sendMail).setOnClickListener(new View.OnClickListener() {
                 return false;
             }
         });
+        findViewById(R.id.sendMail).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String WorkoutType=workoutType.getSelectedItem().toString();
+                int Distance= distanceSeekbar.getProgress();
+                int Duration= durationSeekbar.getProgress();
+                String Discription=description.getText().toString();
+
+
+
+                mCredential = GoogleAccountCredential.usingOAuth2(
+                        view.getContext(), Arrays.asList(SCOPES))
+                        .setBackOff(new ExponentialBackOff());
+                getResultsFromApi();
+
+
+            }
+        });
     }
+
+
 
     public void onClick(View v) {
 
@@ -463,6 +506,43 @@ findViewById(R.id.sendMail).setOnClickListener(new View.OnClickListener() {
 
             }
         }
+    }
+    public void setCode(String code){
+        codeOfChoces=code;
+    }
+    public void addtraining(){
+        mRef=new Firebase("https://gimfit-654d0.firebaseio.com/trainee");
+        mRef.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
+            @Override
+            public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+                String code;
+                for (com.firebase.client.DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    code=snapshot.child("nameOfCoach").getValue().toString();
+                    if (code==codeOfChoces){
+                        addtoarray(snapshot.child("fullName").getValue().toString());
+
+                    }
+
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
+
+    private void addtoarray(String fullName) {
+        traninngOfChoche.add(fullName);
+    }
+    private void arrayadapter() {
+        ArrayAdapter<String> adapter1= new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, traninngOfChoche);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        choosetraining.setAdapter(adapter1);
+
     }
 
 }

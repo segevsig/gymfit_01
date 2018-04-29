@@ -44,7 +44,12 @@
     <option name="DEEP_LINK" value="" />
     <option name="ACTIVITY_CLASS" value="" />
     <method>
+<<<<<<< Updated upstream
       <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1524476195591" />
+=======
+      <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1524556534409" />
+>>>>>>> Stashed changes
     </method>
   </configuration>
 </component>

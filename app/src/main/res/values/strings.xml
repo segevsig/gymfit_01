@@ -3,12 +3,7 @@
     <string name="selected_coach">Selected coach:</string>
     <string name="your_goal">Your goal:</string>
 
-    <string-array name="coaches">
-        <item>Selected coach</item>
-        <item>segev</item>
-        <item>gilad</item>
-        <item>meir</item>
-    </string-array>
+
     <string-array name="goals">
         <item>Your goals</item>
         <item>Get fitter</item>
@@ -57,7 +52,12 @@
         <item>Hammer curl</item>
         <item>Deadlift</item>
     </string-array>
-
+    <string-array name="typeoftrainning">
+        <item>Select the type of trainning</item>
+        <item>Gym</item>
+        <item>Bicycle</item>
+        <item>Running</item>
+    </string-array>
     <string-array name="TypeOfTraningGymLegs">
         <item>Select type of workout</item>
         <item>Squat</item>
