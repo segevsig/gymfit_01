@@ -79,7 +79,7 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
     static final int REQUEST_AUTHORIZATION = 1001;
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
-
+    ArrayAdapter<String> adapter1;
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { CalendarScopes.CALENDAR };
     private SeekBar distanceSeekbar;
@@ -87,7 +87,9 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
     private Spinner workoutType;
     private Spinner choosetraining;
     private Firebase mRef;
-
+    private String emailOftrainng;
+    private  String Distance;
+    private String Duration;
     private MultiAutoCompleteTextView description;
     private EditText btnDatePicker;
     private EditText btnTimePicker;
@@ -148,7 +150,6 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
         btnTimePicker.setOnClickListener(this);
         final TextView runningDistanceKmId=(TextView) findViewById(R.id.distance_progress);
         final TextView runningDurationId=(TextView) findViewById(R.id.Durationprogress);
-
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.TypeOfTraningRunning, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -202,6 +203,8 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
 
             }
         });
+         Distance= String.valueOf(distanceSeekbar.getProgress()) ;
+         Duration= String.valueOf(durationSeekbar.getProgress());
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
@@ -237,12 +240,29 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
         findViewById(R.id.sendMail).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String WorkoutType=workoutType.getSelectedItem().toString();
-                int Distance= distanceSeekbar.getProgress();
-                int Duration= durationSeekbar.getProgress();
-                String Discription=description.getText().toString();
 
 
+
+                mRef=new Firebase("https://gimfit-654d0.firebaseio.com").child("trainee");
+                mRef.addValueEventListener(new com.firebase.client.ValueEventListener() {
+                    @Override
+                    public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+                        String code;
+                        for (com.firebase.client.DataSnapshot snapshot : dataSnapshot.getChildren()){
+                            if (snapshot.child("fullName").getValue().toString().equals(choosetraining)) {
+                                emailOftrainng=snapshot.child("email").getValue().toString();
+
+                            }
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+
+                    }
+                });
 
                 mCredential = GoogleAccountCredential.usingOAuth2(
                         view.getContext(), Arrays.asList(SCOPES))
@@ -426,16 +446,16 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
          */
         private List<String> getDataFromApi() throws IOException {
             Event event = new Event()
-                    .setSummary("segev what you think")
-                    .setDescription("do running yshamen");
+                    .setSummary(workoutType.getSelectedItem().toString())
+                    .setDescription(String.valueOf(description)+"distance : "+ Distance + " duration: " + Duration );
 
-            DateTime startDateTime = new DateTime("2018-03-06T09:00:00-07:00");
+            DateTime startDateTime = new DateTime(String.valueOf(btnDatePicker));
             EventDateTime start = new EventDateTime()
                     .setDateTime(startDateTime).setTimeZone("GMT+02:00");
 
             event.setStart(start);
 
-            DateTime endDateTime = new DateTime("2018-03-07T17:00:00-07:00");
+            DateTime endDateTime = new DateTime(String.valueOf(btnDatePicker));
             EventDateTime end = new EventDateTime()
                     .setDateTime(endDateTime).setTimeZone("GMT+02:00");
          event.setEnd(end);
@@ -444,8 +464,8 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
             event.setRecurrence(Arrays.asList(recurrence));
 
             EventAttendee[] attendees = new EventAttendee[] {
-                    new EventAttendee().setEmail("segevsig1@gmail.com"),
-                    new EventAttendee().setEmail("segevuni85@gmail.com"),
+                    new EventAttendee().setEmail(emailOftrainng),
+
             };
             event.setAttendees(Arrays.asList(attendees));
 
@@ -511,18 +531,16 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
         codeOfChoces=code;
     }
     public void addtraining(){
-        mRef=new Firebase("https://gimfit-654d0.firebaseio.com/trainee");
-        mRef.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
+        mRef=new Firebase("https://gimfit-654d0.firebaseio.com").child("trainee");
+        mRef.addValueEventListener(new com.firebase.client.ValueEventListener() {
             @Override
             public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
                 String code;
                 for (com.firebase.client.DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    code=snapshot.child("nameOfCoach").getValue().toString();
-                    if (code==codeOfChoces){
+                    if (snapshot.child("nameOfCoach").getValue().toString().equals(codeOfChoces)) {
                         addtoarray(snapshot.child("fullName").getValue().toString());
 
                     }
-
                 }
 
 
@@ -539,7 +557,7 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
         traninngOfChoche.add(fullName);
     }
     private void arrayadapter() {
-        ArrayAdapter<String> adapter1= new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, traninngOfChoche);
+        adapter1= new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, traninngOfChoche);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         choosetraining.setAdapter(adapter1);
 

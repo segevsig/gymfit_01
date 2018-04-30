@@ -57,7 +57,8 @@
         <activity android:name=".add_session" />
         <activity android:name=".support_mail" />
         <activity android:name=".permission" />
-        <activity android:name=".Athletes_List"></activity>
+        <activity android:name=".Athletes_List" />
+        <activity android:name=".list_event_for_traning"></activity>
     </application>
 
 </manifest>
