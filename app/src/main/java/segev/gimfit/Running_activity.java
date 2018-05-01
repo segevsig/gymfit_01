@@ -4,26 +4,23 @@ package segev.gimfit;
  * Created by LENOVO on 24/12/2017.
  */
 
-import android.accounts.AccountManager;
-import android.app.Application;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -39,7 +36,6 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
@@ -54,7 +50,6 @@ import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventAttendee;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.EventReminder;
-import com.google.api.services.calendar.model.Events;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -71,7 +66,7 @@ import java.util.List;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-import static segev.gimfit.Gimfit.service;
+import static java.lang.String.format;
 
 
 public class Running_activity extends AppCompatActivity implements View.OnClickListener {
@@ -79,13 +74,11 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
     static final int REQUEST_AUTHORIZATION = 1001;
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
-    ArrayAdapter<String> adapter1;
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { CalendarScopes.CALENDAR };
     private SeekBar distanceSeekbar;
     private SeekBar durationSeekbar;
     private Spinner workoutType;
-    private Spinner choosetraining;
     private Firebase mRef;
     private String emailOftrainng;
     private  String Distance;
@@ -94,43 +87,24 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
     private EditText btnDatePicker;
     private EditText btnTimePicker;
     private int mYear, mMonth, mDay, mHour, mMinute;
-    private  String codeOfChoces;
+    private  String emailchoce;
+    private String month;
+    private String day;private String code;
     private Button btnsend;
     HttpTransport transport = AndroidHttp.newCompatibleTransport();
     JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
     ProgressDialog progressDialog =null;
     com.google.api.services.calendar.Calendar mService=null;
     GoogleAccountCredential mCredential=null;
-    List<String> traninngOfChoche = new ArrayList<String>();
-
-    public Running_activity() {
-    }
-
+    private String dateforevent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.running_layout);
+    final String trineeName=getIntent().getStringExtra("name").toString();
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Coach")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("codeOfChoces");
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                synchronized (this){
-                setCode( dataSnapshot.getValue().toString());
-                if (codeOfChoces!=null){
-                    addtraining();
-                    arrayadapter();
-                    }}
 
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
 
 
@@ -142,7 +116,6 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
         distanceSeekbar = (SeekBar) findViewById(R.id.distanseSeekBar);
         durationSeekbar = (SeekBar) findViewById(R.id.durationSeekBar);
         workoutType = (Spinner) findViewById(R.id.spinnerWorkoutType);
-        choosetraining=(Spinner) findViewById(R.id.training_spinner);
         description = (MultiAutoCompleteTextView) findViewById(R.id.description);
         btnDatePicker = (EditText) findViewById(R.id.date_picker_id);
         btnTimePicker = (EditText) findViewById(R.id.time_picker_id);
@@ -154,7 +127,6 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
                 R.array.TypeOfTraningRunning, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         workoutType.setAdapter(adapter);
-
 
         distanceSeekbar.setMax(50);
         distanceSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -175,6 +147,7 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                   runningDistanceKmId.setText(String.valueOf(progressDistance));
+
 
 
             }
@@ -201,14 +174,15 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
                 runningDurationId.setText(String.valueOf(progressDuration));
 
 
+
+
+
+
             }
         });
-         Distance= String.valueOf(distanceSeekbar.getProgress()) ;
-         Duration= String.valueOf(durationSeekbar.getProgress());
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
-
 
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -237,43 +211,68 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
                 return false;
             }
         });
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Coach")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("email");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                synchronized (this){
+                    setEmailChoen(dataSnapshot.getValue().toString());
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        mRef=new Firebase("https://gimfit-654d0.firebaseio.com").child("trainee");
+        mRef.addValueEventListener(new com.firebase.client.ValueEventListener() {
+            @Override
+            public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+                String code;
+                for (com.firebase.client.DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    if (snapshot.child("fullName").getValue().toString().equals(trineeName)) {
+                        setemail(snapshot.child("email").getValue().toString());
+
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
         findViewById(R.id.sendMail).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-
-                mRef=new Firebase("https://gimfit-654d0.firebaseio.com").child("trainee");
-                mRef.addValueEventListener(new com.firebase.client.ValueEventListener() {
-                    @Override
-                    public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
-                        String code;
-                        for (com.firebase.client.DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            if (snapshot.child("fullName").getValue().toString().equals(choosetraining)) {
-                                emailOftrainng=snapshot.child("email").getValue().toString();
-
-                            }
-                        }
-
-
-                    }
-
-                    @Override
-                    public void onCancelled(FirebaseError firebaseError) {
-
-                    }
-                });
-
                 mCredential = GoogleAccountCredential.usingOAuth2(
                         view.getContext(), Arrays.asList(SCOPES))
                         .setBackOff(new ExponentialBackOff());
+
+                Duration= runningDurationId.getText().toString();
+                Distance= runningDistanceKmId.getText().toString() ;
+                dateforevent=btnDatePicker.getText().toString();
+                dateforevent+="T";
+                dateforevent+=btnTimePicker.getText().toString()+"-07:00";
                 getResultsFromApi();
+
+                Intent intent=new Intent(Running_activity.this,dashboard_activity.class);
+                startActivity(intent);
 
 
             }
         });
     }
 
+    private void setemail(String email) {
+        emailOftrainng=email;
+    }
 
 
     public void onClick(View v) {
@@ -293,8 +292,22 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
                         @Override
                         public void onDateSet(DatePicker view, int year,
                                               int monthOfYear, int dayOfMonth) {
+                            monthOfYear++;
+                            if(monthOfYear>0&&monthOfYear<100) {
+                                 month = "0" + String.valueOf(monthOfYear);
+                            }
+                            else{
+                                 month = String.valueOf(monthOfYear);
+                            }
+                            if(dayOfMonth>0&&dayOfMonth<100) {
+                                 day = "0" + String.valueOf(dayOfMonth);
+                            }
+                            else{
+                                 day =  String.valueOf(dayOfMonth);
 
-                            btnDatePicker.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                            }
+
+                            btnDatePicker.setText(year + "-" + (month) + "-" +day );
 
                         }
                     }, mYear, mMonth, mDay);
@@ -314,10 +327,15 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
                         @Override
                         public void onTimeSet(TimePicker view, int hourOfDay,
                                               int minute) {
+                            if((minute>0)&&(minute<10)){
+                                String minutes="0"+ String.valueOf(minute);
+                                btnTimePicker.setText(hourOfDay + ":" + minutes+":00");
 
-                            btnTimePicker.setText(hourOfDay + ":" + minute);
+                            }
+                            else{
+                            btnTimePicker.setText(hourOfDay + ":" + minute+":00");}
                         }
-                    }, mHour, mMinute, false);
+                    }, mHour, mMinute, true);
             timePickerDialog.show();
         }
     }
@@ -328,8 +346,9 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
             acquireGooglePlayServices();
         } else if (mCredential.getSelectedAccountName() == null) {
             chooseAccount();
-            new Running_activity.MakeRequestTask(mCredential).execute();
-        }
+            new Running_activity.MakeRequestTask(mCredential).execute();}
+
+
     }
 
     @AfterPermissionGranted(REQUEST_PERMISSION_GET_ACCOUNTS)
@@ -420,7 +439,7 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
             JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
             mService = new com.google.api.services.calendar.Calendar.Builder(
                     transport, jsonFactory, credential)
-                    .setApplicationName("Google Calendar API Android Quickstart")
+                    .setApplicationName("Gymfit")
                     .build();
         }
 
@@ -445,17 +464,25 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
          * @throws IOException
          */
         private List<String> getDataFromApi() throws IOException {
+
             Event event = new Event()
                     .setSummary(workoutType.getSelectedItem().toString())
-                    .setDescription(String.valueOf(description)+"distance : "+ Distance + " duration: " + Duration );
+                    .setDescription(String.valueOf(description)+" distance : "+ Distance + " duration: " + Duration );
+try {
+    DateTime startDateTime = new DateTime(dateforevent);
+    EventDateTime start = new EventDateTime()
+            .setDateTime(startDateTime).setTimeZone("GMT+02:00");
+    event.setStart(start);
+}
+catch (Exception e){
+    Log.e("segevsigron", e.toString());
 
-            DateTime startDateTime = new DateTime(String.valueOf(btnDatePicker));
-            EventDateTime start = new EventDateTime()
-                    .setDateTime(startDateTime).setTimeZone("GMT+02:00");
+}
 
-            event.setStart(start);
 
-            DateTime endDateTime = new DateTime(String.valueOf(btnDatePicker));
+
+
+            DateTime endDateTime = new DateTime(dateforevent);
             EventDateTime end = new EventDateTime()
                     .setDateTime(endDateTime).setTimeZone("GMT+02:00");
          event.setEnd(end);
@@ -465,6 +492,9 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
 
             EventAttendee[] attendees = new EventAttendee[] {
                     new EventAttendee().setEmail(emailOftrainng),
+                    new EventAttendee().setEmail(emailchoce),
+
+
 
             };
             event.setAttendees(Arrays.asList(attendees));
@@ -483,6 +513,8 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
                 mService.events().insert(calendarId, event).execute();
             }
             catch (Exception e){
+                Log.e("segevsigronuplaod", e.toString());
+
                 mLastError = e;
 
             }
@@ -527,40 +559,8 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
             }
         }
     }
-    public void setCode(String code){
-        codeOfChoces=code;
-    }
-    public void addtraining(){
-        mRef=new Firebase("https://gimfit-654d0.firebaseio.com").child("trainee");
-        mRef.addValueEventListener(new com.firebase.client.ValueEventListener() {
-            @Override
-            public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
-                String code;
-                for (com.firebase.client.DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    if (snapshot.child("nameOfCoach").getValue().toString().equals(codeOfChoces)) {
-                        addtoarray(snapshot.child("fullName").getValue().toString());
-
-                    }
-                }
-
-
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
-    }
-
-    private void addtoarray(String fullName) {
-        traninngOfChoche.add(fullName);
-    }
-    private void arrayadapter() {
-        adapter1= new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, traninngOfChoche);
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        choosetraining.setAdapter(adapter1);
-
+    public void setEmailChoen(String code){
+        emailchoce=code;
     }
 
 }

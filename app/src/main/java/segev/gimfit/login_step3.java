@@ -19,16 +19,47 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class login_step3 extends AppCompatActivity {
+public class login_step3 extends AppCompatActivity implements View.OnClickListener {
     Integer age=0;
     double weight=0;
     double height=0;
     int num=0;
+    private int mYear, mMonth, mDay;
+    String datePicker;
+    private EditText btnDatePicker;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_step3);
+        btnDatePicker=(EditText) findViewById(R.id.date_picker_id);
+        btnDatePicker.setOnClickListener(this);}
+    public void onClick(View v) {
+
+        if (v == btnDatePicker) {
+
+            // Get Current Date
+            final Calendar c = Calendar.getInstance();
+            mYear = c.get(Calendar.YEAR);
+            mMonth = c.get(Calendar.MONTH);
+            mDay = c.get(Calendar.DAY_OF_MONTH);
+
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                    new DatePickerDialog.OnDateSetListener() {
+
+                        @Override
+                        public void onDateSet(DatePicker view, int year,
+                                              int monthOfYear, int dayOfMonth) {
+
+                            btnDatePicker.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+
+                        }
+                    }, mYear, mMonth, mDay);
+            datePickerDialog.show();
+        }
+
         final Button button1=findViewById(R.id.button_nextStepTo4);
         button1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -83,21 +114,30 @@ public class login_step3 extends AppCompatActivity {
             num=num+1;
             Userapp.setWeight(weight);
         }
-        if (Userapp.getBirth()!=null){
-             if (num==3){
+
+        if(btnDatePicker.getText().toString()!=null){
+            btnDatePicker.setBackgroundResource((R.drawable.border2));
+            btnDatePicker.setError("You did not fill this field or Invalid entry");
+        }
+        else {
+            num++;
+            Userapp.setBirth(btnDatePicker.getText().toString());
+        }
+
+             if (num==4){
             Intent intent = new Intent(login_step3.this, login_step4.class);
             intent.putExtra("myobj",Userapp);
             startActivity(intent);
-        }}
+        }
         else
-            Toast.makeText(login_step3.this,"birth is empty",Toast.LENGTH_LONG).show();
-    }
-    public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getFragmentManager(), "datePicker");
-
+            Toast.makeText(login_step3.this,"you dont fill all the answer",Toast.LENGTH_LONG).show();
     }
 
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
 }
 
 

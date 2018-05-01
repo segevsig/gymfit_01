@@ -58,7 +58,8 @@
         <activity android:name=".support_mail" />
         <activity android:name=".permission" />
         <activity android:name=".Athletes_List" />
-        <activity android:name=".list_event_for_traning"></activity>
+        <activity android:name=".list_event_for_traning" />
+        <activity android:name=".list_tranine_forWorkout"></activity>
     </application>
 
 </manifest>

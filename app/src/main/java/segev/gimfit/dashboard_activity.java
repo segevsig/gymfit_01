@@ -127,7 +127,7 @@ public class dashboard_activity extends AppCompatActivity implements GoogleApiCl
         createSingleWorkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent0 = new Intent(dashboard_activity.this, Running_activity.class);
+                Intent intent0 = new Intent(dashboard_activity.this, list_tranine_forWorkout.class);
                 startActivity(intent0);
             }
         });

@@ -10,54 +10,18 @@ public class User_app implements Serializable {
     private String Email;
     private double Age;
     private double Weight;
+    private String birth;
 
 
 
-
-
-
-    public static class Birth implements Serializable{
-        int day;
-        int month;
-        int year;
-        public Birth(int day, int month, int year) {
-            this.day = day;
-            this.month = month;
-            this.year = year;
-        }
-
-        public void setDay(int day) {
-            this.day = day;
-        }
-
-        public void setMonth(int month) {
-            this.month = month;
-        }
-
-        public void setYear(int year) {
-            this.year = year;
-        }
-
-        public int getDay() {
-
-            return day;
-        }
-
-        public int getMonth() {
-            return month;
-        }
-
-        public int getYear() {
-            return year;
-        }
-    }
-    private Birth birth;
     private String NameOfCoach;
     private String Goals;
     private double Height;
 
 
-
+    public void setBirth(String birth) {
+        this.birth = birth;
+    }
     public String getGender() {
         return Gender;
     }
@@ -134,13 +98,7 @@ public class User_app implements Serializable {
 
     public void setHeight(double height){Height=height;}
 
-    public Birth getBirth() {
-        return birth;
-    }
 
-    public void setBirth(Birth birth) {
-        this.birth = birth;
-    }
 }
 
 

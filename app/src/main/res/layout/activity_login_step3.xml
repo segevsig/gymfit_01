@@ -65,6 +65,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/date_picker_id"
+        android:layout_width="170dp"
+        android:layout_height="50dp"
+        android:layout_alignBaseline="@+id/time_picker_id"
+        android:layout_alignBottom="@+id/time_picker_id"
+        android:layout_alignStart="@+id/hours_text_id"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="44dp"
+        android:ems="5"
+        android:hint="Date"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toEndOf="@+id/weight"
+        app:layout_constraintTop_toBottomOf="@+id/age" />
+
     <Button
         android:id="@+id/button_nextStepTo4"
         android:layout_width="match_parent"
@@ -77,22 +92,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="170dp"
-        android:layout_height="54dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="44dp"
-        android:onClick="showDatePickerDialog"
-        android:text="Date of birth"
-        android:textAllCaps="false"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.724"
-        app:layout_constraintStart_toEndOf="@+id/weight"
-        app:layout_constraintTop_toBottomOf="@+id/age" />
 
     <DatePicker
         android:id="@+id/date_picker"
