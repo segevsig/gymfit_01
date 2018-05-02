@@ -4,12 +4,16 @@ package segev.gimfit;
  * Created by LENOVO on 24/12/2017.
  */
 
+import android.accounts.AccountManager;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -66,8 +70,6 @@ import java.util.List;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-import static java.lang.String.format;
-
 
 public class Running_activity extends AppCompatActivity implements View.OnClickListener {
     static final int REQUEST_ACCOUNT_PICKER = 1000;
@@ -79,8 +81,10 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
     private SeekBar distanceSeekbar;
     private SeekBar durationSeekbar;
     private Spinner workoutType;
+    private String workoutType1;
     private Firebase mRef;
     private String emailOftrainng;
+    private  String Description;
     private  String Distance;
     private String Duration;
     private MultiAutoCompleteTextView description;
@@ -102,15 +106,7 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.running_layout);
-    final String trineeName=getIntent().getStringExtra("name").toString();
-
-
-
-
-
-
-
-
+        final String trineeName=getIntent().getStringExtra("name").toString();
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         distanceSeekbar = (SeekBar) findViewById(R.id.distanseSeekBar);
@@ -251,24 +247,28 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
         findViewById(R.id.sendMail).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Description=String.valueOf(description).toString();
+                workoutType1=workoutType.getSelectedItem().toString();
+                Duration= runningDurationId.getText().toString();
+                Distance= runningDistanceKmId.getText().toString() ;
                 mCredential = GoogleAccountCredential.usingOAuth2(
                         view.getContext(), Arrays.asList(SCOPES))
                         .setBackOff(new ExponentialBackOff());
-
-                Duration= runningDurationId.getText().toString();
-                Distance= runningDistanceKmId.getText().toString() ;
                 dateforevent=btnDatePicker.getText().toString();
                 dateforevent+="T";
                 dateforevent+=btnTimePicker.getText().toString()+"-07:00";
                 getResultsFromApi();
+                // Intent intent=new Intent(Running_activity.this,dashboard_activity.class);
+                //startActivity(intent);
 
-                Intent intent=new Intent(Running_activity.this,dashboard_activity.class);
-                startActivity(intent);
+
 
 
             }
         });
     }
+
+
 
     private void setemail(String email) {
         emailOftrainng=email;
@@ -346,11 +346,22 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
             acquireGooglePlayServices();
         } else if (mCredential.getSelectedAccountName() == null) {
             chooseAccount();
-            new Running_activity.MakeRequestTask(mCredential).execute();}
-
-
+        } else if (! isDeviceOnline()) {
+        } else {
+            new Running_activity.MakeRequestTask(mCredential).execute();
+        }
     }
 
+    /**
+     * Attempts to set the account used with the API credentials. If an account
+     * name was previously saved it will use that one; otherwise an account
+     * picker dialog will be shown to the user. Note that the setting the
+     * account to use with the credentials object requires the app to have the
+     * GET_ACCOUNTS permission, which is requested here if it is not already
+     * present. The AfterPermissionGranted annotation indicates that this
+     * function will be rerun automatically whenever the GET_ACCOUNTS permission
+     * is granted.
+     */
     @AfterPermissionGranted(REQUEST_PERMISSION_GET_ACCOUNTS)
     private void chooseAccount() {
         if (EasyPermissions.hasPermissions(
@@ -376,7 +387,60 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    /**
+     * Called when an activity launched here (specifically, AccountPicker
+     * and authorization) exits, giving you the requestCode you started it with,
+     * the resultCode it returned, and any additional data from it.
+     * @param requestCode code indicating which activity result is incoming.
+     * @param resultCode code indicating the result of the incoming
+     *     activity result.
+     * @param data Intent (containing result data) returned by incoming
+     *     activity result.
+     */
+    @Override
+    protected void onActivityResult(
+            int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case REQUEST_GOOGLE_PLAY_SERVICES:
+                if (resultCode != RESULT_OK) {
 
+                } else {
+                    getResultsFromApi();
+                }
+                break;
+            case REQUEST_ACCOUNT_PICKER:
+                if (resultCode == RESULT_OK && data != null &&
+                        data.getExtras() != null) {
+                    String accountName =
+                            data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+                    if (accountName != null) {
+                        SharedPreferences settings =
+                                getPreferences(Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putString(PREF_ACCOUNT_NAME, accountName);
+                        editor.apply();
+                        mCredential.setSelectedAccountName(accountName);
+                        getResultsFromApi();
+                    }
+                }
+                break;
+            case REQUEST_AUTHORIZATION:
+                if (resultCode == RESULT_OK) {
+                    getResultsFromApi();
+                }
+                break;
+        }
+    }
+
+    /**
+     * Respond to requests for permissions at runtime for API 23 and above.
+     * @param requestCode The request code passed in
+     *     requestPermissions(android.app.Activity, String, int, String[])
+     * @param permissions The requested permissions. Never null.
+     * @param grantResults The grant results for the corresponding permissions
+     *     which is either PERMISSION_GRANTED or PERMISSION_DENIED. Never null.
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
@@ -386,7 +450,31 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
                 requestCode, permissions, grantResults, this);
     }
 
+    /**
+     * Callback for when a permission is granted using the EasyPermissions
+     * library.
+     * @param requestCode The request code associated with the requested
+     *         permission
+     * @param list The requested permission list. Never null.
+     */
 
+
+    /**
+     * Checks whether the device currently has a network connection.
+     * @return true if the device has a network connection, false otherwise.
+     */
+    private boolean isDeviceOnline() {
+        ConnectivityManager connMgr =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
+    }
+
+    /**
+     * Check that Google Play services APK is installed and up to date.
+     * @return true if Google Play Services is available and up to
+     *     date on this device; false otherwise.
+     */
     private boolean isGooglePlayServicesAvailable() {
         GoogleApiAvailability apiAvailability =
                 GoogleApiAvailability.getInstance();
@@ -439,7 +527,7 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
             JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
             mService = new com.google.api.services.calendar.Calendar.Builder(
                     transport, jsonFactory, credential)
-                    .setApplicationName("Gymfit")
+                    .setApplicationName("Google Calendar API Android Quickstart")
                     .build();
         }
 
@@ -465,9 +553,11 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
          */
         private List<String> getDataFromApi() throws IOException {
 
+
+
             Event event = new Event()
-                    .setSummary(workoutType.getSelectedItem().toString())
-                    .setDescription(String.valueOf(description)+" distance : "+ Distance + " duration: " + Duration );
+                    .setSummary("Running"+workoutType1)
+                    .setDescription( Description+" distance : "+ Distance + " duration: " + Duration );
 try {
     DateTime startDateTime = new DateTime(dateforevent);
     EventDateTime start = new EventDateTime()
@@ -493,8 +583,6 @@ catch (Exception e){
             EventAttendee[] attendees = new EventAttendee[] {
                     new EventAttendee().setEmail(emailOftrainng),
                     new EventAttendee().setEmail(emailchoce),
-
-
 
             };
             event.setAttendees(Arrays.asList(attendees));
