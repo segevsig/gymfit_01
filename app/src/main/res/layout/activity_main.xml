@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="segev.gimfit.MainActivity"
+    tools:context="segev.gimfit.MainActivity">
+<!--
     android:background="@drawable/gradient_background2">
+-->
 
     <Button
         android:id="@+id/have_acc"
@@ -53,25 +55,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:contentDescription="@string/app_name"
-            app:srcCompat="@drawable/ux_img" />
+        <!--<ImageView-->
+            <!--android:id="@+id/imageView2"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="fill_parent"-->
+            <!--android:contentDescription="@string/app_name"-->
+            <!--app:srcCompat="@drawable/ux_img" />-->
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:contentDescription="@string/app_name"
-            app:srcCompat="@drawable/graph_1" />
+        <!--<ImageView-->
+            <!--android:id="@+id/imageView3"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="fill_parent"-->
+            <!--android:contentDescription="@string/app_name"-->
+            <!--app:srcCompat="@drawable/graph_1" />-->
 
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/running_img" />
+        <!--<ImageView-->
+            <!--android:id="@+id/imageView6"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--app:srcCompat="@drawable/running_img" />-->
 
 
     </ViewFlipper>
