@@ -24,7 +24,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -62,7 +61,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -247,7 +245,7 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
         findViewById(R.id.sendMail).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Description=String.valueOf(description).toString();
+                Description=description.getText().toString();
                 workoutType1=workoutType.getSelectedItem().toString();
                 Duration= runningDurationId.getText().toString();
                 Distance= runningDistanceKmId.getText().toString() ;
@@ -256,9 +254,9 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
                         .setBackOff(new ExponentialBackOff());
                 dateforevent=btnDatePicker.getText().toString();
                 dateforevent+="T";
-                dateforevent+=btnTimePicker.getText().toString()+"-07:00";
+                dateforevent+=btnTimePicker.getText().toString();
                 getResultsFromApi();
-                // Intent intent=new Intent(Running_activity.this,dashboard_activity.class);
+               // Intent intent=new Intent(Running_activity.this,dashboard_activity.class);
                 //startActivity(intent);
 
 
@@ -293,13 +291,13 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
                         public void onDateSet(DatePicker view, int year,
                                               int monthOfYear, int dayOfMonth) {
                             monthOfYear++;
-                            if(monthOfYear>0&&monthOfYear<100) {
+                            if(monthOfYear>0&&monthOfYear<10) {
                                  month = "0" + String.valueOf(monthOfYear);
                             }
                             else{
                                  month = String.valueOf(monthOfYear);
                             }
-                            if(dayOfMonth>0&&dayOfMonth<100) {
+                            if(dayOfMonth>0&&dayOfMonth<10) {
                                  day = "0" + String.valueOf(dayOfMonth);
                             }
                             else{
@@ -556,12 +554,12 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
 
 
             Event event = new Event()
-                    .setSummary("Running"+workoutType1)
-                    .setDescription( Description+" distance : "+ Distance + " duration: " + Duration );
+                    .setSummary("Running "+ workoutType1)
+                    .setDescription( Description+"/n" +" distance : "+ Distance + " duration: " + Duration );
 try {
     DateTime startDateTime = new DateTime(dateforevent);
     EventDateTime start = new EventDateTime()
-            .setDateTime(startDateTime).setTimeZone("GMT+02:00");
+            .setDateTime(startDateTime).setTimeZone("GMT+00:00");
     event.setStart(start);
 }
 catch (Exception e){
@@ -574,11 +572,10 @@ catch (Exception e){
 
             DateTime endDateTime = new DateTime(dateforevent);
             EventDateTime end = new EventDateTime()
-                    .setDateTime(endDateTime).setTimeZone("GMT+02:00");
+                    .setDateTime(endDateTime).setTimeZone("GMT+00:00");
          event.setEnd(end);
 
-            String[] recurrence = new String[] {"RRULE:FREQ=DAILY;COUNT=2"};
-            event.setRecurrence(Arrays.asList(recurrence));
+
 
             EventAttendee[] attendees = new EventAttendee[] {
                     new EventAttendee().setEmail(emailOftrainng),

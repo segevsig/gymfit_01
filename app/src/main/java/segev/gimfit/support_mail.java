@@ -1,5 +1,6 @@
 package segev.gimfit;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -48,5 +49,7 @@ public class support_mail extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         sendEmail();
+        Intent intent=new Intent(support_mail.this,dashboard_activity.class);
+        startActivity(intent);
     }
 }
