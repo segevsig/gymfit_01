@@ -15,8 +15,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 public class login extends AppCompatActivity {
-    Spinner spinner;
-    ArrayAdapter<CharSequence> adapter;
     User_app Userapp=new User_app();
 
     @Override

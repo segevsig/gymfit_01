@@ -27,7 +27,6 @@ public class list_tranine_forWorkout extends AppCompatActivity {
     List<String> name_of_traning = new ArrayList<String>();
     ListView listView ;
     String triningchoose;
-    String ageChose;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

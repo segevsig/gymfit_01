@@ -11,9 +11,6 @@ public class User_app implements Serializable {
     private double Age;
     private double Weight;
     private String birth;
-
-
-
     private String NameOfCoach;
     private String Goals;
     private double Height;

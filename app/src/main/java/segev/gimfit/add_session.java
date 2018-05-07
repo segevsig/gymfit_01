@@ -209,7 +209,7 @@ public class add_session extends AppCompatActivity implements View.OnClickListen
         if (num==10){
 
                 mRoot = new Firebase("https://gimfit-654d0.firebaseio.com/trainee/" + FirebaseAuth.getInstance().getCurrentUser().getUid().toString()  );
-                mRoot.child("traning data").child(timePicker).setValue(sessionData);
+                mRoot.child("traning data").child(sessionData.getDate().toString()).setValue(sessionData);
             Intent intent = new Intent(add_session.this, athlete_area_playground.class);
             startActivity(intent);
         }

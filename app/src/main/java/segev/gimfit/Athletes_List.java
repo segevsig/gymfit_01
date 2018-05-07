@@ -98,8 +98,9 @@ public class Athletes_List extends AppCompatActivity {
 
                     triningchoose.substring(8,index);
                     Toast.makeText(Athletes_List.this,triningchoose.substring(8,index),Toast.LENGTH_LONG).show();
+                    triningchoose=triningchoose.substring(8,index-1);
 
-                    showEvent(triningchoose.substring(8,index));
+                    showEvent(triningchoose);
 
                 }
             });
