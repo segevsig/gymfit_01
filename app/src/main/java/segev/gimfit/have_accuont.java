@@ -11,13 +11,18 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class have_accuont extends AppCompatActivity {
     EditText Username;
@@ -27,6 +32,7 @@ public class have_accuont extends AppCompatActivity {
     String email  ;
     String password;
     private DatabaseReference mdatabase;
+    private FirebaseFirestore mFirestore;
     ProgressDialog mProgress;
 
 
@@ -38,6 +44,7 @@ public class have_accuont extends AppCompatActivity {
         SharedPreferences.Editor sedt = sp.edit();
         sedt.commit();
         mAuth  = FirebaseAuth.getInstance();
+        mFirestore = FirebaseFirestore.getInstance();
         mdatabase=FirebaseDatabase.getInstance().getReference();
         EditText editText;
         mProgress = new ProgressDialog(this);
@@ -68,6 +75,21 @@ public class have_accuont extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
+
+                            String token_id = FirebaseInstanceId.getInstance().getToken();
+                            String current_id = mAuth.getCurrentUser().getUid();
+                            Map<String, Object> tokenMap = new HashMap<>();
+                            tokenMap.put("token_id",token_id);
+
+                            mFirestore.collection("Users").document(current_id).update(tokenMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+
+                                }
+                            });
+
+                        }
+
                     FirebaseDatabase.getInstance().getReference().child("trainee")
                             .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("device_token")
                             .setValue(FirebaseInstanceId.getInstance().getToken());
@@ -100,13 +122,10 @@ public class have_accuont extends AppCompatActivity {
                     });
 
                 }
-                else{
-                    Toast.makeText(have_accuont.this,task.getException().toString(),Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+            });
+        }
 
     }
-}
+
 
 

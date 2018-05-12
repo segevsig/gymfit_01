@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -28,14 +27,19 @@ import com.google.android.gms.fitness.data.DataSet;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.fitness.result.DailyTotalResult;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DateFormat;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import static com.google.android.gms.common.Scopes.FITNESS_ACTIVITY_READ_WRITE;
@@ -62,6 +66,10 @@ public class dashboard_activity extends AppCompatActivity implements GoogleApiCl
     private ImageButton coacherAthletesList;
     private ImageButton coacherSupport;
     private ImageButton coacherLogout;
+    private FirebaseFirestore mFirestore;
+    FirebaseAuth mAuth;
+    private String mUserId;
+
     private GoogleApiClient mGoogleApiClient;
 
 
@@ -71,6 +79,9 @@ public class dashboard_activity extends AppCompatActivity implements GoogleApiCl
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard_layout);
+        mAuth  = FirebaseAuth.getInstance();
+        mFirestore = FirebaseFirestore.getInstance();
+        mUserId = mAuth.getCurrentUser().getUid();
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation2);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         Menu menu = bottomNavigationView.getMenu();
@@ -103,6 +114,15 @@ public class dashboard_activity extends AppCompatActivity implements GoogleApiCl
                 startActivity(intent);
             }
         });
+
+        coacherMessaging=(ImageButton) this.findViewById(R.id.coacherMessaging);
+        coacherMessaging.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(dashboard_activity.this,Athletes_List.class);
+                startActivity(intent);
+            }
+        });
         setting = (ImageButton) this.findViewById(R.id.setting);
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,14 +134,24 @@ public class dashboard_activity extends AppCompatActivity implements GoogleApiCl
         });
         coacherLogout = (ImageButton) this.findViewById(R.id.coacherLogout);
         coacherLogout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FirebaseAuth.getInstance().signOut();
-                    Intent intent = new Intent(dashboard_activity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            });
+         @Override
+         public void onClick(View v) {
+             Map <String,Object> tokenMapRemove = new HashMap<>();
+             tokenMapRemove.put("token_id", FieldValue.delete());
+             mFirestore.collection("Users").
+                     document(mUserId).update(tokenMapRemove).
+                     addOnSuccessListener(new OnSuccessListener<Void>() {
+                         public void onSuccess(Void aVoid) {
+
+                         }
+                     });
+             mAuth.signOut();
+             Intent intent3 = new Intent(dashboard_activity.this, MainActivity.class);
+             startActivity(intent3);
+         }
+     });
+
+
 
         createSingleWorkout = (ImageButton)findViewById(R.id.coacherSingleWorkout);
         createSingleWorkout.setOnClickListener(new View.OnClickListener() {
@@ -155,18 +185,15 @@ public class dashboard_activity extends AppCompatActivity implements GoogleApiCl
                 switch (item.getItemId()){
 
                     case R.id.navigation_agenda:
-                        Toast.makeText(dashboard_activity.this,"Welcome to Agenda",Toast.LENGTH_SHORT).show();
                         Intent intent1 = new Intent(dashboard_activity.this, agenda_activity.class);
                         startActivity(intent1);
                         break;
 
 
                     case R.id.navigation_dashboard:
-                        Toast.makeText(dashboard_activity.this,"You are on the requested page",Toast.LENGTH_SHORT).show();
                         break;
 
                     case R.id.navigation_data_analisys:
-                        Toast.makeText(dashboard_activity.this,"welcome to Data analisys",Toast.LENGTH_SHORT).show();
                         Intent intent2 = new Intent(dashboard_activity.this, data_analysis_activity.class);
                         startActivity(intent2);
                         break;
@@ -198,12 +225,12 @@ public class dashboard_activity extends AppCompatActivity implements GoogleApiCl
         DateFormat timeFormat = DateFormat.getTimeInstance();
         String counter = " ";
         for (DataPoint dp : dataSet.getDataPoints()) {
-            Log.e("HistoryNiv", "Data point:");
-            Log.e("HistoryNiv", "\tType: " + dp.getDataType().getName());
-            Log.e("HistoryNiv", "\tStart: " + dateFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)) + " " + timeFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)));
-            Log.e("HistoryNiv", "\tEnd: " + dateFormat.format(dp.getEndTime(TimeUnit.MILLISECONDS)) + " " + timeFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)));
+            Log.e("Historysegev", "Data point:");
+            Log.e("Historysegev", "\tType: " + dp.getDataType().getName());
+            Log.e("Historysegev", "\tStart: " + dateFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)) + " " + timeFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)));
+            Log.e("Historysegev", "\tEnd: " + dateFormat.format(dp.getEndTime(TimeUnit.MILLISECONDS)) + " " + timeFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)));
             for (Field field : dp.getDataType().getFields()) {
-                Log.e("HistoryNiv", "\tField: " + field.getName() +
+                Log.e("Historysegev", "\tField: " + field.getName() +
                         " Value: " + dp.getValue(field));
                 counter = dp.getValue(field).toString();
 
@@ -232,12 +259,7 @@ public class dashboard_activity extends AppCompatActivity implements GoogleApiCl
 
         return super.onOptionsItemSelected(item);
     }
-    public void logOut(View view) {
-        FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(dashboard_activity.this,MainActivity.class);
-        startActivity(intent);
-        finish();
-    }
+
     public class  ViewTodaysStepCountTask extends AsyncTask<Void, Void, Void> {
         protected Void doInBackground(Void... params) {
             displayStepDataForToday();
