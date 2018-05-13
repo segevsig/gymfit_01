@@ -3,7 +3,6 @@
     <string name="selected_coach">Selected coach:</string>
     <string name="your_goal">Your goal:</string>
 
-    <string name="default_notification_channel_id">Gymfit_CH_01</string>
     <string-array name="goals">
         <item>Your goals</item>
         <item>Get fitter</item>
@@ -85,5 +84,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="default_notification_channel_id">Gymfit_CH_01</string>
 
 </resources>

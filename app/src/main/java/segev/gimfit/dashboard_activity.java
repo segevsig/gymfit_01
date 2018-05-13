@@ -119,7 +119,7 @@ public class dashboard_activity extends AppCompatActivity implements GoogleApiCl
         coacherMessaging.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(dashboard_activity.this,Athletes_List.class);
+                Intent intent=new Intent(dashboard_activity.this,messaging_screen.class);
                 startActivity(intent);
             }
         });

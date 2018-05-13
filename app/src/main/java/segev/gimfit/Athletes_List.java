@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.client.Firebase;
@@ -25,9 +28,14 @@ public class Athletes_List extends AppCompatActivity {
     String codeOfChoces;
     private Firebase mRef;
     List<String> name_of_traning = new ArrayList<String>();
+    List<String> age_of_traning = new ArrayList<String>();
+    List<String> gender_of_traning = new ArrayList<String>();
+
     ListView listView ;
     String triningchoose;
-    String ageChose;
+    String[] arrayName;
+    String[] arrayGender;
+    String[] arrayAge;
 
 
 
@@ -82,28 +90,20 @@ public class Athletes_List extends AppCompatActivity {
             }
         });}
         public void addtrainingtolist(String name,String age,String gender){
-            name_of_traning.add(
-                    String.format("%s %s %s" ," Name : " +name ," Age : "+age," Gender : "+gender));
-            String[] array = name_of_traning.toArray(new String[0]);
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(Athletes_List.this, android.R.layout.simple_list_item_1, array);
+            name_of_traning.add(String.format("%s" ," Name : " +name));
+            age_of_traning.add(String.format("%s" , "Age : "+age));
+            gender_of_traning.add(String.format("%s" , "Gender : "+gender));
 
-            listView.setAdapter(arrayAdapter);
+             arrayName = name_of_traning.toArray(new String[0]);
+             arrayGender = age_of_traning.toArray(new String[0]);
+             arrayAge = gender_of_traning.toArray(new String[0]);
 
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                  triningchoose=(String) listView.getItemAtPosition(i);
-                  //Toast.makeText(Athletes_List.this,triningchoose,Toast.LENGTH_LONG).show();
-                    int index = triningchoose.indexOf(" A"); // find int position of "I
+            //ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(Athletes_List.this, android.R.layout.simple_list_item_1, array);
 
-                    triningchoose.substring(8,index);
-                    Toast.makeText(Athletes_List.this,triningchoose.substring(8,index),Toast.LENGTH_LONG).show();
-                    triningchoose=triningchoose.substring(8,index-1);
+            CustomAdpter1 customAdpter = new CustomAdpter1();
+            listView.setAdapter(customAdpter);
 
-                    showEvent(triningchoose);
 
-                }
-            });
 
         }
 
@@ -115,6 +115,46 @@ public class Athletes_List extends AppCompatActivity {
 
 
 
+    }
+    class CustomAdpter1 extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return arrayName.length;
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            view = getLayoutInflater().inflate(R.layout.custom_list_tranie, viewGroup, false);
+            TextView age=(TextView) view.findViewById(R.id.age_traniee);
+            final TextView name1=(TextView) view.findViewById(R.id.nametranie);
+            TextView gender=(TextView) view.findViewById(R.id.gender_traniee);
+            age.setText(arrayAge[i]);
+            name1.setText(arrayName[i]);
+            gender.setText(arrayGender[i]);
+
+            name1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    triningchoose=name1.getText().toString();
+                    showEvent(triningchoose);
+
+                }
+            });
+
+
+            return view;
+        }
     }
 
 

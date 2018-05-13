@@ -105,6 +105,7 @@ public class Running_activity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.running_layout);
         final String trineeName=getIntent().getStringExtra("name").toString();
+        Log.e("segev",trineeName);
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         distanceSeekbar = (SeekBar) findViewById(R.id.distanseSeekBar);

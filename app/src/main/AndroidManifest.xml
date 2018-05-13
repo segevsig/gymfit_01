@@ -19,10 +19,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-
-
     <application
-
         android:name=".Gimfit"
         android:allowBackup="true"
         android:icon="@mipmap/logo"
@@ -31,7 +28,6 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme.NoActionBar">
         services_version" />
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -52,6 +48,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Gym_activity" />
         <activity android:name=".Running_activity" />
+        <activity android:name=".messaging_screen"/>
         <activity android:name=".Biking_activity" />
         <activity android:name=".google_calendar" />
         <activity android:name=".agenda_activity" />
@@ -64,23 +61,26 @@
         <activity android:name=".permission" />
         <activity android:name=".Athletes_List" />
         <activity android:name=".list_event_for_traning" />
-        <activity android:name=".list_tranine_forWorkout"></activity>
+        <activity android:name=".list_tranine_forWorkout" />
         <activity android:name=".NotificationActivity">
             <intent-filter>
-                <action android:name="gymfit.firebasepushnotification"></action>
-                <category android:name="android.intent.category.DEFAULT"></category>
-            </intent-filter>
+                <action android:name="gymfit.firebasepushnotification" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
-        <service
-            android:name=".FirebaseMessagingService">
+
+        <service android:name=".FirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="@string/default_notification_channel_id"/>
+            android:value="@string/default_notification_channel_id" />
+
+        <activity android:name=".sendnotifiction"></activity>
     </application>
 
 </manifest>
