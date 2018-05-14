@@ -1,5 +1,6 @@
 package segev.gimfit;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -53,7 +54,7 @@ public class sendnotifiction extends AppCompatActivity {
 
             }
         });
-       Button send_feedback=findViewById(R.id.send_feedback);
+       final Button send_feedback=findViewById(R.id.send_feedback);
        send_feedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,6 +65,9 @@ tokenChoch= FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
 
           mRoot=new Firebase("https://gimfit-654d0.firebaseio.com/notification/"+tokenChoch+"/"+tokentrinee+"/message");
 mRoot.setValue(massgetrinee);
+
+                Intent intent=new Intent(sendnotifiction.this,dashboard_activity.class);
+                startActivity(intent);
 
 
 
