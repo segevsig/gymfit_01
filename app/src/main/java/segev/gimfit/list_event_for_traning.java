@@ -4,11 +4,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -220,14 +218,14 @@ String kEYOFTRANEE;
             step.setText(step1[i]);
             date.setText(date1[i]);
             time.setText(time1[i]);
-            descripition.setText(descripition1[i]);
+            typeof.setText(descripition1[i]);
             hour.setText(hour1[i]);
             minuets.setText(min1[i]);
             second.setText(second1[i]);
             calories.setText(calories1[i]);
             distance.setText(distance1[i]);
             date.setText(date1[i]);
-            typeof.setText(type1[i]);
+            descripition.setText(type1[i]);
 
 
             return view;

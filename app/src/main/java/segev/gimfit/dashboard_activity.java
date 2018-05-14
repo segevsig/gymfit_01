@@ -219,6 +219,8 @@ public class dashboard_activity extends AppCompatActivity implements GoogleApiCl
         Distance = showDataSet(distanceToday.getTotal());
     }
 
+
+
     private String showDataSet(DataSet dataSet) {
         Log.e("Historysegev", "Data returned for Data type: " + dataSet.getDataType().getName());
         DateFormat dateFormat = DateFormat.getDateInstance();

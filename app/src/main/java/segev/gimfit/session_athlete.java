@@ -79,6 +79,7 @@ public class session_athlete extends AppCompatActivity {
                 .build();
         speedDataSource.toString();
     }
+
     private String showDataSet(DataSet dataSet) {
         Log.e("Historysegev", "Data returned for Data type: " + dataSet.getDataType().getName());
         DateFormat dateFormat = DateFormat.getDateInstance();
@@ -89,7 +90,7 @@ public class session_athlete extends AppCompatActivity {
             Log.e("HistoryNiv", "\tType: " + dp.getDataType().getName());
             Log.e("HistoryNiv", "\tStart: " + dateFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)) + " " + timeFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)));
             Log.e("HistoryNiv", "\tEnd: " + dateFormat.format(dp.getEndTime(TimeUnit.MILLISECONDS)) + " " + timeFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)));
-            for(Field field : dp.getDataType().getFields()) {
+            for (Field field : dp.getDataType().getFields()) {
                 Log.e("HistoryNiv", "\tField: " + field.getName() +
                         " Value: " + dp.getValue(field));
                 counter = dp.getValue(field).toString();
@@ -233,9 +234,9 @@ public class session_athlete extends AppCompatActivity {
         Status status = Fitness.HistoryApi.insertData(mGoogleApiClient, dataSet).await(1, TimeUnit.MINUTES);
 
         if (!status.isSuccess()) {
-            Log.e( "History", "Problem with inserting data: " + status.getStatusMessage());
+            Log.e("History", "Problem with inserting data: " + status.getStatusMessage());
         } else {
-            Log.e( "History", "data inserted" );
+            Log.e("History", "data inserted");
         }
     }
 
@@ -478,7 +479,7 @@ public class session_athlete extends AppCompatActivity {
             Log.i(TAG, "\tType: " + dp.getDataType().getName());
             Log.i(TAG, "\tStart: " + dateFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)));
             Log.i(TAG, "\tEnd: " + dateFormat.format(dp.getEndTime(TimeUnit.MILLISECONDS)));
-            for(Field field : dp.getDataType().getFields()) {
+            for (Field field : dp.getDataType().getFields()) {
                 Log.i(TAG, "\tField: " + field.getName() +
                         " Value: " + dp.getValue(field));
             }
@@ -529,105 +530,4 @@ public class session_athlete extends AppCompatActivity {
                     }
                 });
     }
-    /*
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_delete_session) {
-            deleteSession();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-*/
-    /*private boolean hasRuntimePermissions() {
-        int permissionState =
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        return permissionState == PackageManager.PERMISSION_GRANTED;
-    }
-*/
-   /* private void requestRuntimePermissions() {
-        boolean shouldProvideRationale =
-                ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        Manifest.permission.ACCESS_FINE_LOCATION);
-
-        // Provide an additional rationale to the user. This would happen if the user denied the
-        // request previously, but didn't check the "Don't ask again" checkbox.
-        if (shouldProvideRationale) {
-            Log.i(TAG, "Displaying permission rationale to provide additional context.");
-            Snackbar.make(
-                    findViewById(R.id.main_activity_view),
-                    R.string.permission_rationale,
-                    Snackbar.LENGTH_INDEFINITE)
-                    .setAction(R.string.ok, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            // Request permission
-                            ActivityCompat.requestPermissions(MainActivity.this,
-                                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                    REQUEST_PERMISSIONS_REQUEST_CODE);
-                        }
-                    })
-                    .show();
-        } else {
-            Log.i(TAG, "Requesting permission");
-            // Request permission. It's possible this can be auto answered if device policy
-            // sets the permission in a given state or the user denied the permission
-            // previously and checked "Never ask again".
-            ActivityCompat.requestPermissions(MainActivity.this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    REQUEST_PERMISSIONS_REQUEST_CODE);
-        }
-    }
-*/
-
-   /* @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        Log.i(TAG, "onRequestPermissionResult");
-        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
-            if (grantResults.length <= 0) {
-                // If user interaction was interrupted, the permission request is cancelled and you
-                // receive empty arrays.
-                Log.i(TAG, "User interaction was cancelled.");
-            } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission was granted.
-                insertAndVerifySessionWrapper();
-
-            } else {
-                // Permission denied.
-
-                // In this Activity we've chosen to notify the user that they
-                // have rejected a core permission for the app since it makes the Activity useless.
-                // We're communicating this message in a Snackbar since this is a sample app, but
-                // core permissions would typically be best requested during a welcome-screen flow.
-
-                // Additionally, it is important to remember that a permission might have been
-                // rejected without asking the user for permission (device policy or "Never ask
-                // again" prompts). Therefore, a user interface affordance is typically implemented
-                // when permissions are denied. Otherwise, your app could appear unresponsive to
-                // touches or interactions which have required permissions.
-                Snackbar.make(
-                        findViewById(R.id.main_activity_view),
-                        R.string.permission_denied_explanation,
-                        Snackbar.LENGTH_INDEFINITE)
-                        .setAction(R.string.settings, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                // Build intent that displays the App settings screen.
-                                Intent intent = new Intent();
-                                intent.setAction(
-                                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                Uri uri = Uri.fromParts("package",
-                                        BuildConfig.APPLICATION_ID, null);
-                                intent.setData(uri);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                            }
-                        })
-                        .show();
-            }
-        }
-    }
-*/
 }

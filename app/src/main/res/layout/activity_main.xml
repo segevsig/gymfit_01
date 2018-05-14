@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="segev.gimfit.MainActivity">
-<!--
-    android:background="@drawable/gradient_background2">
--->
+    tools:context="segev.gimfit.MainActivity"
+    android:background="@drawable/gradient_background3">
+
 
     <Button
         android:id="@+id/have_acc"
@@ -30,55 +29,31 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="316dp"
         android:layout_height="55dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="244dp"
         android:background="@android:color/holo_blue_light"
         android:text="Get Started"
         android:textAllCaps="false"
-        android:textSize="20dp"
 
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewFlipper"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/imageView15" />
 
-    <ViewFlipper
-        android:id="@+id/viewFlipper"
-        android:layout_width="395dp"
-        android:layout_height="298dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+    <ImageView
+        android:id="@+id/imageView15"
+        android:layout_width="316dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="128dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <!--<ImageView-->
-            <!--android:id="@+id/imageView2"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="fill_parent"-->
-            <!--android:contentDescription="@string/app_name"-->
-            <!--app:srcCompat="@drawable/ux_img" />-->
-
-        <!--<ImageView-->
-            <!--android:id="@+id/imageView3"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="fill_parent"-->
-            <!--android:contentDescription="@string/app_name"-->
-            <!--app:srcCompat="@drawable/graph_1" />-->
-
-        <!--<ImageView-->
-            <!--android:id="@+id/imageView6"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--app:srcCompat="@drawable/running_img" />-->
-
-
-    </ViewFlipper>
-
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/gymfit_logo" />
 
 
 </android.support.constraint.ConstraintLayout>

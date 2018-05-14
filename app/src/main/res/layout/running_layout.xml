@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#3E4A54">
+    android:background= " #ccddff">
     <LinearLayout android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -25,14 +25,17 @@
             android:id="@+id/distance_progress"
             android:layout_width="95dp"
             android:layout_height="30dp"
-            android:textStyle="bold"/>
+            android:textColor="#4d88ff"
+            android:textSize="20dp"
+            android:layout_gravity="center"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="165dp"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:text="Distanse"
-            android:textColor="@color/white"
+            android:textColor=" #4d88ff"
             android:textSize="25dp"
             android:textStyle="bold" />
 
@@ -44,16 +47,19 @@
 
         <TextView
             android:id="@+id/Durationprogress"
-            android:layout_width="127dp"
+            android:layout_width="95dp"
             android:layout_height="30dp"
-            android:textStyle="bold"/>
+            android:textColor="#4d88ff"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Duration"
             android:textSize="25dp"
-            android:textColor="@color/white"
+            android:textColor=" #4d88ff"
             android:textStyle="bold"
             android:paddingTop="20dp"/>
 
@@ -68,7 +74,7 @@
             android:layout_height="wrap_content"
             android:text="Workout Type"
             android:textSize="25dp"
-            android:textColor="@color/white"
+            android:textColor=" #4d88ff"
             android:textStyle="bold"
             android:paddingTop="30dp"/>
 
@@ -84,7 +90,7 @@
             android:layout_height="wrap_content"
             android:text="Descrption"
             android:textSize="25dp"
-            android:textColor="@color/white"
+            android:textColor=" #4d88ff"
             android:textStyle="bold" />
 
         <MultiAutoCompleteTextView
@@ -99,7 +105,7 @@
             android:layout_height="wrap_content"
             android:text="Date"
             android:textSize="25dp"
-            android:textColor="@color/white"
+            android:textColor=" #4d88ff"
             android:textStyle="bold"/>
 
         <EditText
@@ -115,7 +121,7 @@
             android:layout_height="wrap_content"
             android:text="Hour"
             android:textSize="25dp"
-            android:textColor="@color/white"
+            android:textColor=" #4d88ff"
             android:textStyle="bold"/>
 
         <EditText

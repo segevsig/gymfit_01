@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
-import android.widget.ViewFlipper;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.fitness.FitnessOptions;
@@ -19,7 +18,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ViewFlipper viewFlipper;
     int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE ;
 
 
@@ -29,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        viewFlipper = (ViewFlipper) this.findViewById(R.id.viewFlipper);
 
       FitnessOptions fitnessOptions = FitnessOptions.builder()
                 .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
@@ -43,17 +40,7 @@ public class MainActivity extends AppCompatActivity {
                     GOOGLE_FIT_PERMISSIONS_REQUEST_CODE,
                     GoogleSignIn.getLastSignedInAccount(this),
                     fitnessOptions);
-        } //else {
-            //accessGoogleFit();
-        //}
-
-   /* Google_fit_api google_fit=new Google_fit_api();
-    google_fit.connect();*/
-
-        viewFlipper.setAutoStart(true);
-        viewFlipper.setFlipInterval(3000);
-        viewFlipper.startFlipping();
-
+        }
 
 
         findViewById(R.id.login_app).setOnClickListener(new View.OnClickListener() {
