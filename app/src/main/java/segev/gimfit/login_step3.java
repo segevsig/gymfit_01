@@ -115,7 +115,7 @@ public class login_step3 extends AppCompatActivity implements View.OnClickListen
             Userapp.setWeight(weight);
         }
 
-        if(btnDatePicker.getText().toString()!=null){
+        if(btnDatePicker.getText().toString()==null){
             btnDatePicker.setBackgroundResource((R.drawable.border2));
             btnDatePicker.setError("You did not fill this field or Invalid entry");
         }

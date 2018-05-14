@@ -27,7 +27,7 @@ public class User_app_coach implements Serializable {
     private String UserName;
     private String Password;
     private String Email;
-    private int CodeOfChoces=0;
+    private int CodeOfChoces;
 
 
 
@@ -41,7 +41,9 @@ public class User_app_coach implements Serializable {
 
 
     public User_app_coach() {
-        final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Coach");
+        final DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        final DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference().child("Coach");
+
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

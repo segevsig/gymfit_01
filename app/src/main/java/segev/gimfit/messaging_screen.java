@@ -87,7 +87,7 @@ public class messaging_screen extends AppCompatActivity {
             }
         });}
     public void addtrainingtolist(String name){
-        name_of_traning.add(String.format("%s" ," Name : " +name));
+        name_of_traning.add(name);
         arrayName = name_of_traning.toArray(new String[0]);
 
 
@@ -130,9 +130,7 @@ public class messaging_screen extends AppCompatActivity {
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = getLayoutInflater().inflate(R.layout.custom_list_for_notification, viewGroup, false);
             name1=(TextView) view.findViewById(R.id.nameTranee);
-
             name1.setText(arrayName[i]);
-
             name1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

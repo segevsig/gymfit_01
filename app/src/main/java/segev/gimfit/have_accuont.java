@@ -90,9 +90,7 @@ public class have_accuont extends AppCompatActivity {
 
                         }
 
-                    FirebaseDatabase.getInstance().getReference().child("trainee")
-                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("device_token")
-                            .setValue(FirebaseInstanceId.getInstance().getToken());
+
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Coach")
                             .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
                     ref.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
@@ -105,6 +103,9 @@ public class have_accuont extends AppCompatActivity {
                                startActivity(intent);
                                mProgress.hide();
                             }else if (true){
+                               FirebaseDatabase.getInstance().getReference().child("trainee")
+                                       .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("device_token")
+                                       .setValue(FirebaseInstanceId.getInstance().getToken());
                                 Intent intent = new Intent(have_accuont.this,athlete_area_playground.class);
                                 startActivity(intent);
                                 Toast.makeText(have_accuont.this,"User is Loged In pass to private page",Toast.LENGTH_LONG).show();
